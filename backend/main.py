@@ -199,4 +199,4 @@ def answer_question():
     # use the prompt to generate a response
     response = generate_response(prompt)
 
-    return prompt
+    return response

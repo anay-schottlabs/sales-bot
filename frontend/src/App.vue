@@ -66,19 +66,37 @@ async function sendMessage() {
             </div>
         </div>
 
+        <!-- selector for question type -->
+        <div class="flex justify-center shrink-0">
+            <div class="join">
+                <button
+                    type="button"
+                    class="btn join-item"
+                    :class="questionType === 'SALES' ? 'btn-primary' : 'btn-outline'"
+                    @click="questionType = 'SALES'"
+                >
+                    Sales
+                </button>
+                <button
+                    type="button"
+                    class="btn join-item"
+                    :class="questionType === 'SHIFT' ? 'btn-primary' : 'btn-outline'"
+                    @click="questionType = 'SHIFT'"
+                >
+                    Shift
+                </button>
+            </div>
+        </div>
+
         <!-- input to type messages -->
-        <div class="flex justify-center gap-2 py-6 shrink-0">
+        <div class="flex justify-center pt-3 pb-12 shrink-0">
             <input
                 type="text"
-                class="input flex-1"
+                class="input input-lg w-full max-w-xl text-lg shadow-sm"
                 placeholder="Type your question here..."
                 v-model="messageInput"
                 @keydown.enter="sendMessage"
             >
-            <select class="select w-32" v-model="questionType">
-                <option value="SALES">Sales</option>
-                <option value="SHIFT">Shift</option>
-            </select>
         </div>
     </div>
 </template>

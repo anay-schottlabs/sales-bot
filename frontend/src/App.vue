@@ -89,7 +89,7 @@ async function sendMessage() {
             <div class="inline-flex rounded-full border border-base-300 overflow-hidden">
                 <button
                     type="button"
-                    class="px-5 py-1.5 text-sm font-medium transition-colors"
+                    class="cursor-pointer px-5 py-1.5 text-sm font-medium transition-colors"
                     :class="questionType === 'SALES' ? 'bg-neutral text-neutral-content' : 'bg-base-100 text-base-content/70 hover:bg-base-200'"
                     @click="questionType = 'SALES'"
                 >
@@ -97,7 +97,7 @@ async function sendMessage() {
                 </button>
                 <button
                     type="button"
-                    class="border-l border-base-300 px-5 py-1.5 text-sm font-medium transition-colors"
+                    class="cursor-pointer border-l border-base-300 px-5 py-1.5 text-sm font-medium transition-colors"
                     :class="questionType === 'SHIFT' ? 'bg-neutral text-neutral-content' : 'bg-base-100 text-base-content/70 hover:bg-base-200'"
                     @click="questionType = 'SHIFT'"
                 >
@@ -111,14 +111,14 @@ async function sendMessage() {
             <div class="relative w-full max-w-xl">
                 <input
                     type="text"
-                    class="input input-lg w-full rounded-full pr-14 text-base shadow-sm"
+                    class="input input-lg w-full rounded-full pr-14 text-base shadow-sm focus:outline-none"               
                     placeholder="Message..."
                     v-model="messageInput"
                     @keydown.enter="sendMessage"
                 >
                 <button
                     type="button"
-                    class="absolute right-1.5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-neutral text-neutral-content transition-colors disabled:bg-base-300 disabled:text-base-content/40"
+                    class="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral text-neutral-content transition-colors disabled:cursor-default disabled:bg-base-300 disabled:text-[oklch(58%_0.012_250)]"
                     :disabled="messageInput === ''"
                     @click="sendMessage"
                     aria-label="Send message"

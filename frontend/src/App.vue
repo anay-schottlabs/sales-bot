@@ -101,7 +101,7 @@ async function sendMessage() {
         </div>
 
         <!-- input to type messages -->
-        <div class="flex justify-center pt-3 pb-12 shrink-0">
+        <div class="flex justify-center gap-2 pt-3 pb-12 shrink-0">
             <input
                 type="text"
                 class="input input-lg w-full max-w-xl text-lg shadow-sm"
@@ -109,6 +109,13 @@ async function sendMessage() {
                 v-model="messageInput"
                 @keydown.enter="sendMessage"
             >
+            <button
+                type="button"
+                class="btn btn-primary btn-lg"
+                @click="sendMessage"
+            >
+                Send
+            </button>
         </div>
     </div>
 </template>

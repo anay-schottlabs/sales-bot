@@ -89,16 +89,16 @@ async function sendMessage() {
             <div class="inline-flex rounded-full border border-base-300 overflow-hidden">
                 <button
                     type="button"
-                    class="cursor-pointer px-5 py-1.5 text-sm font-medium transition-colors"
-                    :class="questionType === 'SALES' ? 'bg-neutral text-neutral-content' : 'bg-base-100 text-base-content/70 hover:bg-base-200'"
+                    class="px-5 py-1.5 text-sm font-medium transition-colors"
+                    :class="questionType === 'SALES' ? 'cursor-default bg-neutral text-neutral-content' : 'cursor-pointer bg-base-100 text-base-content/70 hover:bg-base-200'"
                     @click="questionType = 'SALES'"
                 >
                     Sales
                 </button>
                 <button
                     type="button"
-                    class="cursor-pointer border-l border-base-300 px-5 py-1.5 text-sm font-medium transition-colors"
-                    :class="questionType === 'SHIFT' ? 'bg-neutral text-neutral-content' : 'bg-base-100 text-base-content/70 hover:bg-base-200'"
+                    class="border-l border-base-300 px-5 py-1.5 text-sm font-medium transition-colors"
+                    :class="questionType === 'SHIFT' ? 'cursor-default bg-neutral text-neutral-content' : 'cursor-pointer bg-base-100 text-base-content/70 hover:bg-base-200'"
                     @click="questionType = 'SHIFT'"
                 >
                     Shift

@@ -3,6 +3,8 @@ from pathlib import Path
 
 from flask import Flask, request
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -12,6 +14,12 @@ import torch
 
 app = Flask(__name__)
 CORS(app)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["20 per minute"]
+)
 
 DATABASE_PATH = Path(__file__).parent / "database.json"
 
@@ -153,6 +161,7 @@ def generate_response(prompt):
     return answer[prompt_len:]
 
 @app.route("/ask")
+@limiter.limit("5 per minute")
 def answer_question():
     question = request.args.get("question")
 

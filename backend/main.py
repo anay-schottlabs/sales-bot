@@ -1,11 +1,11 @@
 from flask import Flask, request
-from enum import Enum, auto
+from enum import Enum
 
 app = Flask(__name__)
 
 class QuestionType(Enum):
-    SALES = auto()
-    SHIFT = auto()
+    SALES = "SALES"
+    SHIFT = "SHIFT"
 
 @app.route("/ask")
 def answer_question():

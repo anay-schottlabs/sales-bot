@@ -21,7 +21,6 @@ const messages = ref([
 ]);
 
 const messageInput = ref("");
-const questionType = ref("SALES");
 const isWaitingForResponse = ref(false);
 
 const messagesContainer = ref(null);
@@ -45,7 +44,6 @@ const greeting = computed(() => {
 
 const REQUEST_URL = "http://127.0.0.1:5000/ask?";
 const QUESTION_PARAM = "question=";
-const QUESTION_TYPE_PARAM = "question_type=";
 
 async function sendMessage() {
     if (messageInput.value != "" && !isWaitingForResponse.value) {
@@ -62,8 +60,7 @@ async function sendMessage() {
         try {
             const response = await fetch(
                 REQUEST_URL +
-                QUESTION_PARAM + encodeURIComponent(question) +
-                "&" + QUESTION_TYPE_PARAM + encodeURIComponent(questionType.value)
+                QUESTION_PARAM + encodeURIComponent(question)
             );
             const answerText = await response.text();
             messages.value.push(
@@ -110,30 +107,8 @@ async function sendMessage() {
             </div>
         </div>
 
-        <!-- selector for question type -->
-        <div class="flex justify-center shrink-0 pt-4">
-            <div class="inline-flex rounded-full border border-base-300 overflow-hidden">
-                <button
-                    type="button"
-                    class="px-5 py-1.5 text-sm font-medium transition-colors"
-                    :class="questionType === 'SALES' ? 'cursor-default bg-neutral text-neutral-content' : 'cursor-pointer bg-base-100 text-base-content/70 hover:bg-base-200'"
-                    @click="questionType = 'SALES'"
-                >
-                    Sales
-                </button>
-                <button
-                    type="button"
-                    class="border-l border-base-300 px-5 py-1.5 text-sm font-medium transition-colors"
-                    :class="questionType === 'SHIFT' ? 'cursor-default bg-neutral text-neutral-content' : 'cursor-pointer bg-base-100 text-base-content/70 hover:bg-base-200'"
-                    @click="questionType = 'SHIFT'"
-                >
-                    Shift
-                </button>
-            </div>
-        </div>
-
         <!-- input to type messages -->
-        <div class="flex justify-center pt-3 pb-12 shrink-0">
+        <div class="flex justify-center pt-6 pb-12 shrink-0">
             <div class="relative w-full max-w-xl">
                 <input
                     type="text"

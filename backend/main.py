@@ -3,7 +3,6 @@ from pathlib import Path
 
 from flask import Flask, request
 from flask_cors import CORS
-from enum import Enum
 
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -19,24 +18,12 @@ DATABASE_PATH = Path(__file__).parent / "database.json"
 with open(DATABASE_PATH) as f:
     database = json.load(f)
 
-sales_database = database["sales"]
-shift_database = database["shift"]
-
-class QuestionType(Enum):
-    SALES = "SALES"
-    SHIFT = "SHIFT"
-
 # answering questions
 
 encoding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-sales_embeddings = encoding_model.encode(
-    sales_database,
-    normalize_embeddings=True   # we want to compare direction, not magnitude
-)
-
-shift_embeddings = encoding_model.encode(
-    shift_database,
+embeddings = encoding_model.encode(
+    database,
     normalize_embeddings=True   # we want to compare direction, not magnitude
 )
 
@@ -45,23 +32,20 @@ shift_embeddings = encoding_model.encode(
 # X = number of chunks
 # Y = embedding dimension
 # embeddings[1] gives Y, the embedding dimension
-sales_embedding_dimension = sales_embeddings.shape[1]
-shift_embedding_dimension = shift_embeddings.shape[1]
+embedding_dimension = embeddings.shape[1]
 
 # create an empty FAISS database with the embedding dimension
-sales_index = faiss.IndexFlatIP(sales_embedding_dimension)
-shift_index = faiss.IndexFlatIP(shift_embedding_dimension)
+index = faiss.IndexFlatIP(embedding_dimension)
 
 # add embeddings
-sales_index.add(sales_embeddings.astype("float32"))
-shift_index.add(shift_embeddings.astype("float32"))
+index.add(embeddings.astype("float32"))
 
 # define the K chunks of data that FAISS will collect
 K = 3
 
 # index retrieval function
-def retrieve_info(question, k, index):
-    
+def retrieve_info(question, k):
+
     # convert question into embeddings
     query_embedding = encoding_model.encode(
         [question],
@@ -79,12 +63,12 @@ def retrieve_info(question, k, index):
     return distances, indices
 
 # a function to convert indices into context
-def indices_to_context(indices, database):
+def indices_to_context(indices):
     context = []
 
-    for index in indices:
-        context.append(database[index])
-    
+    for i in indices:
+        context.append(database[i])
+
     return context
 
 # a function to compile everything into a single prompt
@@ -171,19 +155,9 @@ def generate_response(prompt):
 @app.route("/ask")
 def answer_question():
     question = request.args.get("question")
-    question_type = request.args.get("question_type")
-    
-    if question_type == QuestionType.SALES.value:
-        database = sales_database
-        index = sales_index
-    elif question_type == QuestionType.SHIFT.value:
-        database = shift_database
-        index = shift_index
-    else:
-        return "Error, question type invalid."
-    
+
     # have FAISS collect the top k matching data chunks to the question
-    distances, indices = retrieve_info(question, K, index)
+    distances, indices = retrieve_info(question, K)
 
     # remove the outermost dimension
     # so that distances and indices become a 1d array
@@ -191,7 +165,7 @@ def answer_question():
     indices = np.squeeze(indices)
 
     # compare indices with database to get actual text
-    context = indices_to_context(indices, database)
+    context = indices_to_context(indices)
 
     # use the context to collect a prompt
     prompt = build_prompt(question, context)

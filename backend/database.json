@@ -1,20 +1,17 @@
-{
-    "sales": [
-        "A drop-in class costs $48.",
-        "The Buy One Get One (BOGO) deal costs $48. The BOGO deal gives customers 2 class credits that they can use on any class.",
-        "The Buy One Get One (BOGO) promotion is only available to prospects who have never purchased a package before.",
-        "The New Fighter Pack costs $59. The New Fighter Pack gives customers 3 class credits that they can use on any class.",
-        "Monthly membership pricing: The 4 classes per month membership costs $109 per month.",
-        "Monthly membership pricing: The 6 classes per month membership costs $119 per month.",
-        "Monthly membership pricing: The 8 classes per month membership is normally $169 online.",
-        "Monthly membership pricing: The unlimited membership is normally $209 online.",
-        "This month, the 8 classes per month membership is discounted to $152 when purchased in person.",
-        "This month, the unlimited membership is discounted to $157 when purchased in person.",
-        "Class package pricing: A 5 class package costs $189.",
-        "Class package pricing: A 10 class package costs $339.",
-        "Class package pricing: A 20 class package costs $639.",
-        "This month, the 10 class package promotion gives customers 4 additional classes when they purchase the package in person. The promotional price is $339 for 14 total classes."
-    ],
-    "shift": [
-    ]
-}
+[
+    "A drop-in class costs $48.",
+    "The Buy One Get One (BOGO) deal costs $48. The BOGO deal gives customers 2 class credits that they can use on any class.",
+    "The Buy One Get One (BOGO) promotion is only available to prospects who have never purchased a package before.",
+    "The New Fighter Pack costs $59. The New Fighter Pack gives customers 3 class credits that they can use on any class.",
+    "Monthly membership pricing: The 4 classes per month membership costs $109 per month.",
+    "Monthly membership pricing: The 6 classes per month membership costs $119 per month.",
+    "Monthly membership pricing: The 8 classes per month membership is normally $169 online.",
+    "Monthly membership pricing: The unlimited membership is normally $209 online.",
+    "This month, the 8 classes per month membership is discounted to $152 when purchased in person.",
+    "This month, the unlimited membership is discounted to $157 when purchased in person.",
+    "Class package pricing: A 5 class package costs $189.",
+    "Class package pricing: A 10 class package costs $339.",
+    "Class package pricing: A 20 class package costs $639.",
+    "This month, the 10 class package promotion gives customers 4 additional classes when they purchase the package in person. The promotional price is $339 for 14 total classes.",
+    "The studio needs to be mopped every night except for Wednesday."
+]

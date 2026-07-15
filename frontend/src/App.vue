@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const Sender = Object.freeze({
     USER: "user",
@@ -13,10 +13,22 @@ class Message {
     }
 }
 
-const messages = ref([]);
+const messages = ref([
+    new Message(
+        "How can I help?",
+        Sender.BOT
+    )
+]);
 
 const messageInput = ref("");
 const questionType = ref("SALES");
+
+const greeting = computed(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning.";
+    if (hour < 18) return "Good afternoon.";
+    return "Good evening.";
+});
 
 const REQUEST_URL = "http://127.0.0.1:5000/ask?";
 const QUESTION_PARAM = "question=";
@@ -52,7 +64,7 @@ async function sendMessage() {
 <template>
     <div class="flex flex-col h-screen max-w-3xl mx-auto px-4">
         <!-- page hero -->
-        <p class="text-4xl font-semibold text-center py-6 shrink-0">How can I help?</p>
+        <p class="text-4xl font-semibold text-center py-6 shrink-0">{{ greeting }}</p>
 
         <!-- show message history -->
         <div class="flex-1 overflow-y-auto flex flex-col gap-3 px-1">

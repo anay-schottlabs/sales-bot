@@ -16,10 +16,13 @@ class Message {
 const messages = ref([]);
 
 const messageInput = ref("");
-
 const questionType = ref("SALES");
 
-function sendMessage() {
+const REQUEST_URL = "http://127.0.0.1:5000/ask?";
+const QUESTION_PARAM = "question=";
+const QUESTION_TYPE_PARAM = "question_type=";
+
+async function sendMessage() {
     if (messageInput.value != "") {
         messages.value.push(
             new Message(
@@ -27,15 +30,21 @@ function sendMessage() {
                 Sender.USER
             )
         );
-        messageInput.value = "";
 
-        // placeholder until actual message response from bot
+        const response = await fetch(
+            REQUEST_URL +
+            QUESTION_PARAM + encodeURIComponent(messageInput.value) +
+            "&" + QUESTION_TYPE_PARAM + encodeURIComponent(questionType.value)
+        );
+        const answerText = await response.text();
         messages.value.push(
             new Message(
-                "This is a placeholder response from the bot",
+                answerText,
                 Sender.BOT
             )
         );
+
+        messageInput.value = "";
     }
 }
 </script>

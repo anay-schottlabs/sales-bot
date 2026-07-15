@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 
 const Sender = Object.freeze({
     USER: "user",
@@ -23,6 +23,18 @@ const messages = ref([
 const messageInput = ref("");
 const questionType = ref("SALES");
 const isWaitingForResponse = ref(false);
+
+const messagesContainer = ref(null);
+
+watch(
+    () => [messages.value.length, isWaitingForResponse.value],
+    async () => {
+        await nextTick();
+        if (messagesContainer.value) {
+            messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+        }
+    }
+);
 
 const greeting = computed(() => {
     const hour = new Date().getHours();
@@ -75,7 +87,7 @@ async function sendMessage() {
         </div>
 
         <!-- show message history -->
-        <div class="flex-1 overflow-y-auto flex flex-col gap-3 px-1">
+        <div ref="messagesContainer" class="flex-1 overflow-y-auto flex flex-col gap-3 px-1">
             <div
                 v-for="message in messages"
                 class="flex"

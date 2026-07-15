@@ -62,37 +62,43 @@ async function sendMessage() {
 </script>
 
 <template>
-    <div class="flex flex-col h-screen max-w-3xl mx-auto px-4">
+    <div class="flex flex-col h-screen max-w-2xl mx-auto px-4">
         <!-- page hero -->
-        <p class="text-4xl font-semibold text-center py-6 shrink-0">{{ greeting }}</p>
+        <div class="shrink-0 pt-16 pb-8 text-center">
+            <p class="text-5xl font-bold tracking-tight text-gray-900">{{ greeting }}</p>
+        </div>
 
         <!-- show message history -->
         <div class="flex-1 overflow-y-auto flex flex-col gap-3 px-1">
-            <div v-for="message in messages">
-                <div v-if="message.sender == Sender.BOT" class="chat chat-start">
-                    <div class="chat-bubble">{{ message.text }}</div>
-                </div>
-                <div v-if="message.sender == Sender.USER" class="chat chat-end">
-                    <div class="chat-bubble">{{ message.text }}</div>
+            <div
+                v-for="message in messages"
+                class="flex"
+                :class="message.sender == Sender.BOT ? 'justify-start' : 'justify-end'"
+            >
+                <div
+                    class="max-w-[75%] rounded-2xl px-4 py-2.5 text-[15px] leading-relaxed"
+                    :class="message.sender == Sender.BOT ? 'bg-gray-100 text-gray-900' : 'bg-gray-900 text-white'"
+                >
+                    {{ message.text }}
                 </div>
             </div>
         </div>
 
         <!-- selector for question type -->
-        <div class="flex justify-center shrink-0">
-            <div class="join">
+        <div class="flex justify-center shrink-0 pt-4">
+            <div class="inline-flex rounded-full border border-gray-300 overflow-hidden">
                 <button
                     type="button"
-                    class="btn join-item"
-                    :class="questionType === 'SALES' ? 'btn-primary' : 'btn-outline'"
+                    class="px-5 py-1.5 text-sm font-medium transition-colors"
+                    :class="questionType === 'SALES' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
                     @click="questionType = 'SALES'"
                 >
                     Sales
                 </button>
                 <button
                     type="button"
-                    class="btn join-item"
-                    :class="questionType === 'SHIFT' ? 'btn-primary' : 'btn-outline'"
+                    class="border-l border-gray-300 px-5 py-1.5 text-sm font-medium transition-colors"
+                    :class="questionType === 'SHIFT' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
                     @click="questionType = 'SHIFT'"
                 >
                     Shift
@@ -101,21 +107,28 @@ async function sendMessage() {
         </div>
 
         <!-- input to type messages -->
-        <div class="flex justify-center gap-2 pt-3 pb-12 shrink-0">
-            <input
-                type="text"
-                class="input input-lg w-full max-w-xl text-lg shadow-sm"
-                placeholder="Type your question here..."
-                v-model="messageInput"
-                @keydown.enter="sendMessage"
-            >
-            <button
-                type="button"
-                class="btn btn-primary btn-lg"
-                @click="sendMessage"
-            >
-                Send
-            </button>
+        <div class="flex justify-center pt-3 pb-12 shrink-0">
+            <div class="relative w-full max-w-xl">
+                <input
+                    type="text"
+                    class="input input-lg w-full rounded-full pr-14 text-base shadow-sm"
+                    placeholder="Message..."
+                    v-model="messageInput"
+                    @keydown.enter="sendMessage"
+                >
+                <button
+                    type="button"
+                    class="absolute right-1.5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-gray-900 text-white transition-colors disabled:bg-gray-200 disabled:text-gray-400"
+                    :disabled="messageInput === ''"
+                    @click="sendMessage"
+                    aria-label="Send message"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                        <path d="M12 19V5" />
+                        <path d="M5 12l7-7 7 7" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </template>

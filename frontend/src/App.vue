@@ -17,6 +17,8 @@ const messages = ref([]);
 
 const messageInput = ref("");
 
+const questionType = ref("SALES");
+
 function sendMessage() {
     if (messageInput.value != "") {
         messages.value.push(
@@ -54,14 +56,18 @@ function sendMessage() {
         </div>
     
         <!-- input to type messages -->
-        <div class="flex justify-center mt-8">
+        <div class="flex justify-center mt-8 gap-2">
             <input
                 type="text"
                 class="input"
                 placeholder="Type your question here..."
                 v-model="messageInput"
-                @keydown.enter="sendMessage"       
+                @keydown.enter="sendMessage"
             >
+            <select class="select" v-model="questionType">
+                <option value="SALES">Sales</option>
+                <option value="SHIFT">Shift</option>
+            </select>
         </div>
     </div>
 </template>

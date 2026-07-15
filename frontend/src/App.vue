@@ -65,7 +65,7 @@ async function sendMessage() {
     <div class="flex flex-col h-screen max-w-2xl mx-auto px-4">
         <!-- page hero -->
         <div class="shrink-0 pt-16 pb-8 text-center">
-            <p class="text-5xl font-bold tracking-tight text-gray-900">{{ greeting }}</p>
+            <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
         </div>
 
         <!-- show message history -->
@@ -77,7 +77,7 @@ async function sendMessage() {
             >
                 <div
                     class="max-w-[75%] rounded-2xl px-4 py-2.5 text-[15px] leading-relaxed"
-                    :class="message.sender == Sender.BOT ? 'bg-gray-100 text-gray-900' : 'bg-gray-900 text-white'"
+                    :class="message.sender == Sender.BOT ? 'bg-base-200 text-base-content' : 'bg-neutral text-neutral-content'"
                 >
                     {{ message.text }}
                 </div>
@@ -86,19 +86,19 @@ async function sendMessage() {
 
         <!-- selector for question type -->
         <div class="flex justify-center shrink-0 pt-4">
-            <div class="inline-flex rounded-full border border-gray-300 overflow-hidden">
+            <div class="inline-flex rounded-full border border-base-300 overflow-hidden">
                 <button
                     type="button"
                     class="px-5 py-1.5 text-sm font-medium transition-colors"
-                    :class="questionType === 'SALES' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
+                    :class="questionType === 'SALES' ? 'bg-neutral text-neutral-content' : 'bg-base-100 text-base-content/70 hover:bg-base-200'"
                     @click="questionType = 'SALES'"
                 >
                     Sales
                 </button>
                 <button
                     type="button"
-                    class="border-l border-gray-300 px-5 py-1.5 text-sm font-medium transition-colors"
-                    :class="questionType === 'SHIFT' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'"
+                    class="border-l border-base-300 px-5 py-1.5 text-sm font-medium transition-colors"
+                    :class="questionType === 'SHIFT' ? 'bg-neutral text-neutral-content' : 'bg-base-100 text-base-content/70 hover:bg-base-200'"
                     @click="questionType = 'SHIFT'"
                 >
                     Shift
@@ -118,7 +118,7 @@ async function sendMessage() {
                 >
                 <button
                     type="button"
-                    class="absolute right-1.5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-gray-900 text-white transition-colors disabled:bg-gray-200 disabled:text-gray-400"
+                    class="absolute right-1.5 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-neutral text-neutral-content transition-colors disabled:bg-base-300 disabled:text-base-content/40"
                     :disabled="messageInput === ''"
                     @click="sendMessage"
                     aria-label="Send message"

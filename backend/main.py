@@ -17,8 +17,10 @@ CORS(app)
 DATABASE_PATH = Path(__file__).parent / "database.json"
 
 with open(DATABASE_PATH) as f:
-    sales_database = json.load(f)["sales"]
-    shift_database = json.load(f)["shift"]
+    database = json.load(f)
+
+sales_database = database["sales"]
+shift_database = database["shift"]
 
 class QuestionType(Enum):
     SALES = "SALES"
@@ -197,6 +199,4 @@ def answer_question():
     # use the prompt to generate a response
     response = generate_response(prompt)
 
-    print(prompt)
-
-    return "PLACEHOLDER"
+    return prompt

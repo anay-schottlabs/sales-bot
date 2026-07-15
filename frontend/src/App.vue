@@ -22,6 +22,7 @@ const messages = ref([
 
 const messageInput = ref("");
 const questionType = ref("SALES");
+const isWaitingForResponse = ref(false);
 
 const greeting = computed(() => {
     const hour = new Date().getHours();
@@ -35,28 +36,33 @@ const QUESTION_PARAM = "question=";
 const QUESTION_TYPE_PARAM = "question_type=";
 
 async function sendMessage() {
-    if (messageInput.value != "") {
+    if (messageInput.value != "" && !isWaitingForResponse.value) {
+        const question = messageInput.value;
         messages.value.push(
             new Message(
-                messageInput.value,
+                question,
                 Sender.USER
             )
         );
-
-        const response = await fetch(
-            REQUEST_URL +
-            QUESTION_PARAM + encodeURIComponent(messageInput.value) +
-            "&" + QUESTION_TYPE_PARAM + encodeURIComponent(questionType.value)
-        );
-        const answerText = await response.text();
-        messages.value.push(
-            new Message(
-                answerText,
-                Sender.BOT
-            )
-        );
-
         messageInput.value = "";
+        isWaitingForResponse.value = true;
+
+        try {
+            const response = await fetch(
+                REQUEST_URL +
+                QUESTION_PARAM + encodeURIComponent(question) +
+                "&" + QUESTION_TYPE_PARAM + encodeURIComponent(questionType.value)
+            );
+            const answerText = await response.text();
+            messages.value.push(
+                new Message(
+                    answerText,
+                    Sender.BOT
+                )
+            );
+        } finally {
+            isWaitingForResponse.value = false;
+        }
     }
 }
 </script>
@@ -80,6 +86,14 @@ async function sendMessage() {
                     :class="message.sender == Sender.BOT ? 'bg-base-200 text-base-content' : 'bg-neutral text-neutral-content'"
                 >
                     {{ message.text }}
+                </div>
+            </div>
+
+            <div v-if="isWaitingForResponse" class="flex justify-start">
+                <div class="flex items-center gap-1.5 rounded-2xl bg-base-200 px-4 py-3">
+                    <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
+                    <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
+                    <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
                 </div>
             </div>
         </div>
@@ -119,7 +133,7 @@ async function sendMessage() {
                 <button
                     type="button"
                     class="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral text-neutral-content transition-colors disabled:cursor-default disabled:bg-base-300 disabled:text-[oklch(58%_0.012_250)]"
-                    :disabled="messageInput === ''"
+                    :disabled="messageInput === '' || isWaitingForResponse"
                     @click="sendMessage"
                     aria-label="Send message"
                 >

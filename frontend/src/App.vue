@@ -31,6 +31,20 @@ const isWaitingForResponse = ref(false);
 // the scrollable message-list element; watched below to auto-scroll on new messages
 const messagesContainer = ref(null);
 
+// drives the hero card condensing down to just its icon once the user has
+// scrolled past it, and expanding back out on hover so it's still glanceable
+const isScrolled = ref(false);
+const isHeroHovered = ref(false);
+const isHeroCondensed = computed(() => isScrolled.value && !isHeroHovered.value);
+
+const HERO_CONDENSE_SCROLL_THRESHOLD = 24;
+
+function handleMessagesScroll() {
+    if (messagesContainer.value) {
+        isScrolled.value = messagesContainer.value.scrollTop > HERO_CONDENSE_SCROLL_THRESHOLD;
+    }
+}
+
 // auth/session state
 const isAuthenticated = ref(false);
 const isAuthenticating = ref(false);
@@ -242,16 +256,33 @@ async function sendMessage() {
 
     <div v-else class="relative h-screen">
         <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header -->
-        <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto">
-            <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width -->
+        <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto" @scroll="handleMessagesScroll">
+            <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width.
+                 condenses down to just the icon once scrolled past, expands back on hover or scrolling back to top -->
             <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">
-                <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
-                    <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
+                <!-- hover is bound here rather than on the pill itself — this div's top edge is pinned by the
+                     sticky ancestor and only its bottom edge moves as padding grows, so a stationary pointer near
+                     the top of the condensed icon never ends up outside the region as it expands. binding hover to
+                     the pill instead caused a feedback loop: the pill shifts down as its ancestor's padding-top
+                     grows, pushing it out from under a fixed pointer, which un-hovers it, which shrinks it back
+                     under the pointer, which re-hovers it — an infinite expand/contract flicker -->
+                <div
+                    class="max-w-2xl mx-auto px-4 text-center transition-[padding] duration-300 ease-out"
+                    :class="isHeroCondensed ? 'pt-4 pb-3' : 'pt-16 pb-8'"
+                    @mouseenter="isHeroHovered = true"
+                    @mouseleave="isHeroHovered = false"
+                >
+                    <div
+                        class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl shadow-lg shadow-black/20 transition-[padding] duration-300 ease-out"
+                        :class="isHeroCondensed ? 'px-3 py-2.5' : 'px-8 py-5'"
+                    >
                         <div class="flex items-center justify-center">
                             <!-- sunrise: full circle with dots instead of capsule rays -->
                             <svg
                                 v-if="timeOfDay === 'morning'"
-                                viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content"
+                                viewBox="0 0 24 24" fill="currentColor"
+                                class="shrink-0 text-base-content transition-[height,width] duration-300 ease-out"
+                                :class="isHeroCondensed ? 'h-6 w-6' : 'h-11 w-11'"
                             >
                                 <circle cx="12" cy="12" r="5" />
                                 <circle cx="12" cy="2.1" r="1" />
@@ -267,7 +298,9 @@ async function sendMessage() {
                             <!-- full sun: filled circle + capsule rays, rotated around the sun center -->
                             <svg
                                 v-else-if="timeOfDay === 'afternoon'"
-                                viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content"
+                                viewBox="0 0 24 24" fill="currentColor"
+                                class="shrink-0 text-base-content transition-[height,width] duration-300 ease-out"
+                                :class="isHeroCondensed ? 'h-6 w-6' : 'h-11 w-11'"
                             >
                                 <circle cx="12" cy="12" r="5" />
                                 <rect x="11" y="0.5" width="2" height="4.5" rx="1" />
@@ -281,7 +314,11 @@ async function sendMessage() {
                             </svg>
 
                             <!-- crescent moon: cusp tips rounded via blur+alpha-threshold (masks don't have "corners" to round directly) -->
-                            <svg v-else viewBox="0 0 24 24" class="h-11 w-11 shrink-0 text-base-content">
+                            <svg
+                                v-else viewBox="0 0 24 24"
+                                class="shrink-0 text-base-content transition-[height,width] duration-300 ease-out"
+                                :class="isHeroCondensed ? 'h-6 w-6' : 'h-11 w-11'"
+                            >
                                 <filter id="moon-round" x="-30%" y="-30%" width="160%" height="160%">
                                     <feGaussianBlur in="SourceGraphic" stdDeviation="0.47" result="blur" />
                                     <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" />
@@ -296,8 +333,20 @@ async function sendMessage() {
                             </svg>
                         </div>
 
-                        <p class="mt-3 text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
-                        <p class="mt-2 text-sm text-base-content/60">{{ currentDayAndShift }}</p>
+                        <!-- collapses via max-height + max-width + opacity rather than v-if, so it animates smoothly
+                             instead of popping. max-width has to collapse too, not just max-height — otherwise this
+                             div still reserves its full intrinsic text width (just invisible), which keeps the
+                             inline-block card pill-wide instead of shrinking down to the icon. the expanded cap is a
+                             fixed px value (comfortably wider than the longest greeting) rather than max-w-full —
+                             percentage max-width inside a shrink-to-fit inline-block is circular and silently
+                             resolves too small, clipping the text -->
+                        <div
+                            class="overflow-hidden whitespace-nowrap transition-[max-height,max-width,opacity,margin-top] duration-300 ease-out"
+                            :class="isHeroCondensed ? 'mt-0 max-h-0 max-w-0 opacity-0' : 'mt-3 max-h-40 max-w-[32rem] opacity-100'"
+                        >
+                            <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+                            <p class="mt-2 text-sm text-base-content/60">{{ currentDayAndShift }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

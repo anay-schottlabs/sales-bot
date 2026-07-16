@@ -140,7 +140,7 @@ async function sendMessage() {
 <template>
     <!-- checking for an already-authenticated session before deciding what to show -->
     <div v-if="isCheckingSession" class="flex h-screen items-center justify-center">
-        <div class="flex items-center gap-1.5 rounded-2xl bg-base-200 px-4 py-3">
+        <div class="flex items-center gap-1.5 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
@@ -175,7 +175,7 @@ async function sendMessage() {
             >
         </label>
 
-        <div v-if="isAuthenticating" class="flex items-center gap-1.5 rounded-2xl bg-base-200 px-4 py-3">
+        <div v-if="isAuthenticating" class="flex items-center gap-1.5 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
@@ -183,49 +183,52 @@ async function sendMessage() {
         <p v-else-if="authError" class="text-sm text-error">{{ authError }}</p>
     </div>
 
-    <div v-else class="flex flex-col h-screen max-w-2xl mx-auto px-4">
-        <!-- page hero -->
-        <div class="shrink-0 pt-16 pb-8 text-center">
-            <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
-        </div>
+    <div v-else class="relative h-screen max-w-2xl mx-auto px-4">
+        <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header -->
+        <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto">
+            <!-- page hero, glassy and pinned to the top of the scroll region -->
+            <div class="sticky top-0 z-10 pt-16 pb-8 text-center bg-gradient-to-b from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
+                <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+            </div>
 
-        <!-- show message history -->
-        <div ref="messagesContainer" class="flex-1 overflow-y-auto flex flex-col gap-3 px-1">
-            <div
-                v-for="message in messages"
-                class="flex"
-                :class="message.sender == Sender.BOT ? 'justify-start' : 'justify-end'"
-            >
+            <!-- message history -->
+            <div class="flex flex-col gap-3 px-1 pb-32">
                 <div
-                    class="max-w-[75%] rounded-2xl px-4 py-2.5 text-[15px] leading-relaxed"
-                    :class="message.sender == Sender.BOT ? 'bg-base-200 text-base-content' : 'bg-neutral text-neutral-content'"
+                    v-for="message in messages"
+                    class="flex"
+                    :class="message.sender == Sender.BOT ? 'justify-start' : 'justify-end'"
                 >
-                    {{ message.text }}
+                    <div
+                        class="max-w-[75%] rounded-2xl px-4 py-2.5 text-[15px] leading-relaxed backdrop-blur-md"
+                        :class="message.sender == Sender.BOT ? 'bg-base-200/70 text-base-content' : 'bg-neutral/85 text-neutral-content'"
+                    >
+                        {{ message.text }}
+                    </div>
                 </div>
-            </div>
 
-            <div v-if="isWaitingForResponse" class="flex justify-start">
-                <div class="flex items-center gap-1.5 rounded-2xl bg-base-200 px-4 py-3">
-                    <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
-                    <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
-                    <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
+                <div v-if="isWaitingForResponse" class="flex justify-start">
+                    <div class="flex items-center gap-1.5 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
+                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
+                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
+                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- input to type messages -->
-        <div class="flex justify-center pt-6 pb-12 shrink-0">
-            <div class="relative w-full max-w-xl">
+        <!-- input to type messages, glassy and pinned to the bottom so history blurs beneath it too -->
+        <div class="absolute inset-x-0 bottom-0 z-10 flex justify-center pt-10 pb-12 bg-gradient-to-t from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
+            <div class="relative w-full">
                 <input
                     type="text"
-                    class="input input-lg w-full rounded-full pr-14 text-base shadow-sm focus:outline-none"               
+                    class="input input-lg w-full rounded-full border border-base-content/10 bg-base-200/60 backdrop-blur-md pr-14 text-base shadow-sm focus:outline-none"
                     placeholder="Message..."
                     v-model="messageInput"
                     @keydown.enter="sendMessage"
                 >
                 <button
                     type="button"
-                    class="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral text-neutral-content transition-colors disabled:cursor-default disabled:bg-base-300 disabled:text-[oklch(58%_0.012_250)]"
+                    class="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral/90 backdrop-blur-sm text-neutral-content transition-colors disabled:cursor-default disabled:bg-base-300/70 disabled:text-[oklch(58%_0.012_250)]"
                     :disabled="messageInput === '' || isWaitingForResponse"
                     @click="sendMessage"
                     aria-label="Send message"

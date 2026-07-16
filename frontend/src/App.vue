@@ -37,12 +37,25 @@ const isScrolled = ref(false);
 const isHeroHovered = ref(false);
 const isHeroCondensed = computed(() => isScrolled.value && !isHeroHovered.value);
 
-const HERO_CONDENSE_SCROLL_THRESHOLD = 24;
+// hysteresis band, not a single threshold — condense only once scrolled past
+// the higher value, but don't expand back out until scrolled back above the
+// lower one. with a single threshold, slow scrolling that lingers right
+// around it flips isScrolled on every scroll event, replaying the condense
+// animation over and over instead of settling
+const HERO_CONDENSE_SCROLL_THRESHOLD = 48;
+const HERO_EXPAND_SCROLL_THRESHOLD = 16;
 
 function handleMessagesScroll() {
-    if (messagesContainer.value) {
-        isScrolled.value = messagesContainer.value.scrollTop > HERO_CONDENSE_SCROLL_THRESHOLD;
+    if (!messagesContainer.value) return;
+
+    const scrollTop = messagesContainer.value.scrollTop;
+
+    if (scrollTop > HERO_CONDENSE_SCROLL_THRESHOLD) {
+        isScrolled.value = true;
+    } else if (scrollTop < HERO_EXPAND_SCROLL_THRESHOLD) {
+        isScrolled.value = false;
     }
+    // else: within the band between the two thresholds, leave isScrolled as-is
 }
 
 // auth/session state
@@ -257,8 +270,18 @@ async function sendMessage() {
     </div>
 
     <div v-else key="chat" class="relative h-screen">
-        <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header -->
-        <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto" @scroll="handleMessagesScroll">
+        <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header.
+             overflow-anchor:none disables the browser's scroll anchoring for this scroller: without it, the
+             browser "helpfully" adjusts scrollTop to compensate whenever the sticky header above resizes (as it
+             does when the hero card condenses/expands), to keep visible content from jumping. That compensation
+             itself crosses the condense/expand thresholds, re-triggering the resize, triggering another
+             compensation, forever — this is what the reported glitchy/rapid toggling on a slow scroll actually
+             was, not simple threshold jitter -->
+        <div
+            ref="messagesContainer"
+            class="absolute inset-0 overflow-y-auto [overflow-anchor:none]"
+            @scroll="handleMessagesScroll"
+        >
             <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width.
                  condenses down to just the icon once scrolled past, expands back on hover or scrolling back to top -->
             <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">

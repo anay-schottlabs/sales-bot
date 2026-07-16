@@ -103,6 +103,29 @@ const greeting = computed(() => {
     return "Good evening.";
 });
 
+const NO_SHIFT_LABEL = "No Shift";
+
+// mirrors get_current_shift() in main.py: matches today's day name and
+// time-of-day against the shift schedule fetched from /authenticate
+const currentDayAndShift = computed(() => {
+    const now = new Date();
+    const dayName = now.toLocaleDateString("en-US", { weekday: "long" });
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const toMinutes = (hhmm) => {
+        const [hours, minutes] = hhmm.split(":").map(Number);
+        return hours * 60 + minutes;
+    };
+
+    const matchingShift = shifts.value.find((shift) => (
+        shift.days.includes(dayName) &&
+        currentMinutes >= toMinutes(shift.start) &&
+        currentMinutes <= toMinutes(shift.end)
+    ));
+
+    return `${dayName} — ${matchingShift ? matchingShift.label : NO_SHIFT_LABEL}`;
+});
+
 const REQUEST_URL = "http://127.0.0.1:5050/ask?question=";
 
 async function sendMessage() {
@@ -196,6 +219,7 @@ async function sendMessage() {
             <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">
                 <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
                     <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+                    <p class="mt-2 text-sm text-base-content/60">{{ currentDayAndShift }}</p>
                 </div>
             </div>
 

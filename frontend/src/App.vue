@@ -27,6 +27,9 @@ const messages = ref([
 
 const messageInput = ref("");
 const isWaitingForResponse = ref(false);
+// live progress text from the backend's SSE stream (see sendMessage) — shown
+// in the loading bubble in place of a generic spinner
+const statusText = ref("");
 
 // the scrollable message-list element; watched below to auto-scroll on new messages
 const messagesContainer = ref(null);
@@ -209,6 +212,25 @@ const currentDayAndShift = computed(() => {
 
 const REQUEST_URL = "http://127.0.0.1:5050/ask?question=";
 
+// splits one SSE event block ("event: x\ndata: a\ndata: b") into its event
+// name and reassembled (newline-joined) data — mirrors format_sse() in
+// main.py, which prefixes every line of multi-line data with "data: "
+// individually since a bare multi-line "data:" field isn't valid SSE
+function parseSseEvent(rawEvent) {
+    let event = "message";
+    const dataLines = [];
+
+    for (const line of rawEvent.split("\n")) {
+        if (line.startsWith("event:")) {
+            event = line.slice("event:".length).trim();
+        } else if (line.startsWith("data:")) {
+            dataLines.push(line.slice("data:".length).replace(/^ /, ""));
+        }
+    }
+
+    return { event, data: dataLines.join("\n") };
+}
+
 async function sendMessage() {
     if (messageInput.value != "" && !isWaitingForResponse.value) {
         const question = messageInput.value;
@@ -220,6 +242,7 @@ async function sendMessage() {
         );
         messageInput.value = "";
         isWaitingForResponse.value = true;
+        statusText.value = "";
 
         try {
             const response = await fetch(
@@ -235,15 +258,45 @@ async function sendMessage() {
                 return;
             }
 
-            const answerText = await response.text();
+            // the response is a stream of Server-Sent Events: "status" events
+            // update statusText as the backend works through retrieval, prompt
+            // construction, and generation, and a final "answer" event carries
+            // the real response text
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = "";
+            let answerText = null;
+
+            while (answerText === null) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+
+                // SSE events are separated by a blank line
+                let eventEnd;
+                while ((eventEnd = buffer.indexOf("\n\n")) !== -1) {
+                    const { event, data } = parseSseEvent(buffer.slice(0, eventEnd));
+                    buffer = buffer.slice(eventEnd + 2);
+
+                    if (event === "status") {
+                        statusText.value = data;
+                    } else if (event === "answer") {
+                        answerText = data;
+                        break;
+                    }
+                }
+            }
+
             messages.value.push(
                 new Message(
-                    answerText,
+                    answerText ?? "Hmm, something went wrong on my end. Try asking again?",
                     Sender.BOT
                 )
             );
         } finally {
             isWaitingForResponse.value = false;
+            statusText.value = "";
         }
     }
 }
@@ -444,10 +497,18 @@ async function sendMessage() {
                 </div>
 
                 <div v-if="isWaitingForResponse" key="loading-indicator" class="flex justify-start">
-                    <div class="flex items-center gap-1.5 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
-                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
-                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
-                        <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
+                    <div class="flex items-center gap-2 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
+                        <!-- keyed on statusText so each stage change ("Searching the knowledge
+                             base…" -> "Building the prompt…" -> "Generating a response…") cross-fades
+                             instead of popping; see sendMessage's SSE stream handling -->
+                        <Transition name="status-text" mode="out-in">
+                            <span v-if="statusText" :key="statusText" class="text-sm text-base-content/60">{{ statusText }}</span>
+                        </Transition>
+                        <span class="flex items-center gap-1.5">
+                            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
+                            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
+                            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
+                        </span>
                     </div>
                 </div>
             </TransitionGroup>
@@ -528,5 +589,16 @@ async function sendMessage() {
 .screen-leave-to {
     opacity: 0;
     transform: scale(1.02);
+}
+
+/* cross-fades the loading bubble's status text between stages */
+.status-text-enter-active,
+.status-text-leave-active {
+    transition: opacity 0.15s ease-out;
+}
+
+.status-text-enter-from,
+.status-text-leave-to {
+    opacity: 0;
 }
 </style>

@@ -22,7 +22,7 @@ import faiss
 import numpy as np
 import torch
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, Response, request, stream_with_context
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -343,6 +343,14 @@ def generate_response(prompt):
 
 # routes
 
+# formats one Server-Sent Event. data is split on newlines and each line gets
+# its own "data:" prefix, since a bare "data: {multi-line text}" is invalid
+# SSE and would truncate at the first newline (the model's answer can easily
+# span multiple lines)
+def format_sse(event, data):
+    prefixed_lines = "\n".join(f"data: {line}" for line in data.split("\n"))
+    return f"event: {event}\n{prefixed_lines}\n\n"
+
 # lets the frontend check, on page load/reload, whether this IP is still
 # within an authenticated window — without needing to resubmit a code
 @app.route("/authenticate", methods=["GET"])
@@ -372,7 +380,14 @@ def authenticate():
 
 # answers a question: retrieves relevant knowledge-base context, filters out
 # anything too dissimilar to be trustworthy, then asks the LLM to answer
-# using only that context
+# using only that context.
+#
+# streamed as Server-Sent Events rather than a single response: a "status"
+# event before each slow stage (retrieval, prompt construction, generation)
+# so the frontend can show what's actually happening instead of a generic
+# spinner, and a final "answer" event with the real response. Useful for
+# users (the wait isn't a mystery) and for us (which stage is actually slow
+# is visible instead of guessed at)
 @app.route("/ask")
 @limiter.limit("5 per minute")
 def answer_question():
@@ -383,46 +398,59 @@ def answer_question():
 
     question = request.args.get("question")
 
-    # computed once so retrieval and the prompt agree on what "today" is
-    time_context = current_time_context()
+    def generate():
+        # computed once so retrieval and the prompt agree on what "today" is
+        time_context = current_time_context()
 
-    # this IP's recent back-and-forth, threaded into the prompt below
-    history = get_history(ip)
+        # this IP's recent back-and-forth, threaded into the prompt below
+        history = get_history(ip)
 
-    # have FAISS collect the top k matching data chunks to the question
-    distances, indices = retrieve_info(question, K, time_context)
+        yield format_sse("status", "Searching the knowledge base…")
 
-    # remove the outermost dimension
-    # so that distances and indices become a 1d array
-    distances = np.squeeze(distances)
-    indices = np.squeeze(indices)
+        # have FAISS collect the top k matching data chunks to the question
+        distances, indices = retrieve_info(question, K, time_context)
 
-    # filter out indices based on threshold
-    filtered_indices = []
-    for i in range(len(distances)):
-        if distances[i] >= SCORE_THRESHOLD:
-            filtered_indices.append(indices[i])
+        # remove the outermost dimension
+        # so that distances and indices become a 1d array
+        distances = np.squeeze(distances)
+        indices = np.squeeze(indices)
 
-    # if no indices met the threshold
-    # the request doesn't match what is known in the database
-    if len(filtered_indices) == 0:
-        return "Hmm, I'm not confident I've got a good answer for that one. Could you rephrase, or ask me something else?"
+        # filter out indices based on threshold
+        filtered_indices = []
+        for i in range(len(distances)):
+            if distances[i] >= SCORE_THRESHOLD:
+                filtered_indices.append(indices[i])
 
-    # compare indices with database to get actual text
-    context = indices_to_context(filtered_indices)
+        # if no indices met the threshold
+        # the request doesn't match what is known in the database
+        if len(filtered_indices) == 0:
+            yield format_sse(
+                "answer",
+                "Hmm, I'm not confident I've got a good answer for that one. Could you rephrase, or ask me something else?"
+            )
+            return
 
-    # use the context to collect a prompt
-    prompt = build_prompt(question, context, time_context, history)
+        # compare indices with database to get actual text
+        context = indices_to_context(filtered_indices)
 
-    # use the prompt to generate a response
-    response = generate_response(prompt)
+        yield format_sse("status", "Building the prompt…")
 
-    # remember this turn so follow-up questions from the same IP can refer
-    # back to it
-    add_to_history(ip, "user", question)
-    add_to_history(ip, "assistant", response)
+        # use the context to collect a prompt
+        prompt = build_prompt(question, context, time_context, history)
 
-    return response
+        yield format_sse("status", "Generating a response…")
+
+        # use the prompt to generate a response
+        response = generate_response(prompt)
+
+        # remember this turn so follow-up questions from the same IP can
+        # refer back to it
+        add_to_history(ip, "user", question)
+        add_to_history(ip, "assistant", response)
+
+        yield format_sse("answer", response)
+
+    return Response(stream_with_context(generate()), mimetype="text/event-stream")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5050, threaded=True)

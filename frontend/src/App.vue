@@ -209,8 +209,10 @@ async function sendMessage() {
 </script>
 
 <template>
+    <!-- crossfades between the checking/OTP-gate/chat screens instead of popping straight across -->
+    <Transition name="screen" mode="out-in">
     <!-- checking for an already-authenticated session before deciding what to show -->
-    <div v-if="isCheckingSession" class="flex h-screen items-center justify-center">
+    <div v-if="isCheckingSession" key="checking" class="flex h-screen items-center justify-center">
         <div class="flex items-center gap-1.5 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
             <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
@@ -219,7 +221,7 @@ async function sendMessage() {
     </div>
 
     <!-- OTP gate: shown until the six-digit code is verified -->
-    <div v-else-if="!isAuthenticated" class="flex flex-col h-screen max-w-2xl mx-auto px-4 items-center justify-center gap-6 text-center">
+    <div v-else-if="!isAuthenticated" key="otp-gate" class="flex flex-col h-screen max-w-2xl mx-auto px-4 items-center justify-center gap-6 text-center">
         <div>
             <p class="text-4xl font-bold tracking-tight text-base-content">Verify it's you.</p>
             <p class="mt-2 text-base text-base-content/60">Enter the 6-digit code to continue.</p>
@@ -254,7 +256,7 @@ async function sendMessage() {
         <p v-else-if="authError" class="text-sm text-error">{{ authError }}</p>
     </div>
 
-    <div v-else class="relative h-screen">
+    <div v-else key="chat" class="relative h-screen">
         <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header -->
         <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto" @scroll="handleMessagesScroll">
             <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width.
@@ -408,6 +410,7 @@ async function sendMessage() {
             </div>
         </div>
     </div>
+    </Transition>
 </template>
 
 <style scoped>
@@ -437,5 +440,23 @@ async function sendMessage() {
 
 .message-leave-to {
     opacity: 0;
+}
+
+/* crossfade between the checking/OTP-gate/chat screens — mode="out-in" on the
+   Transition means only one of these is ever in the DOM at once, so a plain
+   fade + subtle scale is enough, no position juggling needed */
+.screen-enter-active,
+.screen-leave-active {
+    transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+}
+
+.screen-enter-from {
+    opacity: 0;
+    transform: scale(0.98);
+}
+
+.screen-leave-to {
+    opacity: 0;
+    transform: scale(1.02);
 }
 </style>

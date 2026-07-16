@@ -254,13 +254,13 @@ async function sendMessage() {
                                 <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(315 12 12)" />
                             </svg>
 
-                            <!-- crescent moon -->
+                            <!-- crescent moon: enlarged to match the suns' reach (radius 11.5), same crescent proportions as before -->
                             <svg viewBox="0 0 24 24" class="h-11 w-11 shrink-0 text-base-content">
                                 <mask id="moon-mask">
                                     <rect x="0" y="0" width="24" height="24" fill="white" />
-                                    <circle cx="15" cy="9" r="7" fill="black" />
+                                    <circle cx="15.8" cy="8.2" r="8.9" fill="black" />
                                 </mask>
-                                <circle cx="12" cy="12" r="9" fill="currentColor" mask="url(#moon-mask)" />
+                                <circle cx="12" cy="12" r="11.5" fill="currentColor" mask="url(#moon-mask)" />
                             </svg>
                         </div>
 

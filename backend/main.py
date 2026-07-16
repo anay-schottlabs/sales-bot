@@ -1,5 +1,7 @@
 import json
+import time
 from pathlib import Path
+from threading import Lock
 
 from flask import Flask, request
 from flask_cors import CORS
@@ -25,6 +27,30 @@ DATABASE_PATH = Path(__file__).parent / "database.json"
 
 with open(DATABASE_PATH) as f:
     database = json.load(f)
+
+# authentication
+
+AUTH_CODE = 241180
+AUTH_DURATION_SECONDS = 5 * 60
+
+# maps IP address -> time (epoch seconds) the authentication expires
+authenticated_ips = {}
+authenticated_ips_lock = Lock()
+
+# checks whether an IP is currently authenticated, evicting it from the
+# authenticated list if its window has expired
+def is_authenticated(ip):
+    with authenticated_ips_lock:
+        expires_at = authenticated_ips.get(ip)
+
+        if expires_at is None:
+            return False
+
+        if time.time() > expires_at:
+            del authenticated_ips[ip]
+            return False
+
+        return True
 
 # answering questions
 
@@ -84,12 +110,13 @@ def build_prompt(question, context):
     context_text = "\n".join(context)
 
     prompt = (
-        "Answer the question using ONLY the information below. Give exactly one "
-        "complete answer and then stop — do not add extra questions, extra answers, "
-        "or unrelated text.\n"
+        "Answer the question using ONLY the information below. Provide exactly one "
+        "complete, elaborated answer that explains your reasoning rather than simply responding 'yes' or 'no'. "
+        "Do not add extra questions, extra answers, or unrelated text beyond your one thorough answer.\n"
         "Only respond with the exact phrase \"I don't have that information.\" if none "
         "of the information below answers the question. If the information below does "
-        "answer the question, answer it directly and do not say that phrase.\n\n"
+        "answer the question, answer it directly and do not say that phrase.\n"
+        "Whenever possible and reasonable, answer the question to the best of your ability.\n\n"
         f"Information:\n{context_text}\n\n"
         f"Question:\n{question}"
     )
@@ -144,9 +171,27 @@ def generate_response(prompt):
         skip_special_tokens=True
     ).strip()
 
+@app.route("/authenticate")
+def authenticate():
+    code = request.args.get("code", "")
+
+    if not (code.isdigit() and len(code) == 6):
+        return "Invalid code."
+
+    if int(code) != AUTH_CODE:
+        return "Invalid code."
+
+    with authenticated_ips_lock:
+        authenticated_ips[request.remote_addr] = time.time() + AUTH_DURATION_SECONDS
+
+    return "Authenticated."
+
 @app.route("/ask")
 @limiter.limit("5 per minute")
 def answer_question():
+    if not is_authenticated(request.remote_addr):
+        return "The password was bypassed, you can't send messages without authenticating first."
+
     question = request.args.get("question")
 
     # have FAISS collect the top k matching data chunks to the question

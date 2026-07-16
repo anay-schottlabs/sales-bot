@@ -45,8 +45,36 @@ const isHeroCondensed = computed(() => isScrolled.value && !isHeroHovered.value)
 const HERO_CONDENSE_SCROLL_THRESHOLD = 48;
 const HERO_EXPAND_SCROLL_THRESHOLD = 16;
 
+// timestamp of the last genuine @mousemove over the hero — not reactive on
+// purpose, this is only ever read inside handleMessagesScroll
+let lastHeroMouseMoveAt = -Infinity;
+const HERO_HOVER_STALE_AFTER_MS = 80;
+
+function handleHeroMouseMove() {
+    lastHeroMouseMoveAt = performance.now();
+    isHeroHovered.value = true;
+}
+
+function handleHeroMouseLeave() {
+    isHeroHovered.value = false;
+}
+
 function handleMessagesScroll() {
     if (!messagesContainer.value) return;
+
+    // the expanded card's hitbox is large (most of the top of the screen),
+    // so it's common for the cursor to already be resting inside it from
+    // unrelated earlier activity, well before the user starts scrolling. If
+    // that stale hover were left alone, isHeroCondensed could never become
+    // true — the card can't shrink out from under a hover that's blocking
+    // it, so the mouseleave that would normally clear that hover never
+    // fires either, deadlocking it open regardless of how far the user
+    // scrolls. Scrolling should win over a hover the user isn't actively
+    // maintaining, so treat any hover more than HERO_HOVER_STALE_AFTER_MS
+    // old as stale and drop it on every scroll event.
+    if (performance.now() - lastHeroMouseMoveAt > HERO_HOVER_STALE_AFTER_MS) {
+        isHeroHovered.value = false;
+    }
 
     const scrollTop = messagesContainer.value.scrollTop;
 
@@ -290,12 +318,31 @@ async function sendMessage() {
                      the top of the condensed icon never ends up outside the region as it expands. binding hover to
                      the pill instead caused a feedback loop: the pill shifts down as its ancestor's padding-top
                      grows, pushing it out from under a fixed pointer, which un-hovers it, which shrinks it back
-                     under the pointer, which re-hovers it — an infinite expand/contract flicker -->
+                     under the pointer, which re-hovers it — an infinite expand/contract flicker.
+
+                     setting hover true uses @mousemove, not @mouseenter: mouseenter (like :hover) is a hit-test
+                     result that gets recomputed — and re-fires — on ANY layout change, including this element's own
+                     geometry shifting under a pointer that never actually moved. since the user's cursor commonly
+                     rests somewhere near the top of the screen, scrolling alone (which resizes this element as the
+                     card condenses) could spuriously fire mouseenter and force a re-expand mid-scroll, which grows
+                     the header and shoves the message content back down — exactly the "scrolling down drags me
+                     back up" report. mousemove only ever fires on genuine pointer movement, never from layout
+                     changes, so it can't be triggered by the resize itself. mouseleave stays as-is: losing hover
+                     when the shrinking card moves out from under a stationary pointer is the correct direction.
+
+                     that alone still leaves a deadlock though: the expanded card's hitbox covers most of the top
+                     of the screen, so the cursor is often already resting inside it from unrelated earlier
+                     activity before the user starts scrolling at all — a real mousemove that legitimately set
+                     isHeroHovered=true. Since the card can't shrink while hovered, it never gets the chance to
+                     move out from under that stationary cursor, so mouseleave never fires either — stuck expanded
+                     no matter how far you scroll. handleMessagesScroll breaks this by treating any hover older
+                     than HERO_HOVER_STALE_AFTER_MS as stale and dropping it on every scroll event, so scrolling
+                     always wins over a hover the user isn't actively maintaining. -->
                 <div
                     class="max-w-2xl mx-auto px-4 text-center transition-[padding] duration-300 ease-out"
                     :class="isHeroCondensed ? 'pt-4 pb-3' : 'pt-16 pb-8'"
-                    @mouseenter="isHeroHovered = true"
-                    @mouseleave="isHeroHovered = false"
+                    @mousemove="handleHeroMouseMove"
+                    @mouseleave="handleHeroMouseLeave"
                 >
                     <div
                         class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl shadow-lg shadow-black/20 transition-[padding] duration-300 ease-out"

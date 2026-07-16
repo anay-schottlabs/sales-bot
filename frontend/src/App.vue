@@ -254,18 +254,18 @@ async function sendMessage() {
                                 <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(315 12 12)" />
                             </svg>
 
-                            <!-- crescent moon: cusp tips rounded via blur+alpha-threshold (masks don't have "corners" to round directly), scaled down to match the suns' visual weight -->
+                            <!-- crescent moon: cusp tips rounded via blur+alpha-threshold (masks don't have "corners" to round directly), sized to match the suns' visual weight -->
                             <svg viewBox="0 0 24 24" class="h-11 w-11 shrink-0 text-base-content">
                                 <filter id="moon-round" x="-30%" y="-30%" width="160%" height="160%">
-                                    <feGaussianBlur in="SourceGraphic" stdDeviation="0.36" result="blur" />
+                                    <feGaussianBlur in="SourceGraphic" stdDeviation="0.47" result="blur" />
                                     <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" />
                                 </filter>
                                 <g filter="url(#moon-round)">
                                     <mask id="moon-mask">
                                         <rect x="0" y="0" width="24" height="24" fill="white" />
-                                        <circle cx="14.3" cy="9.7" r="5.3" fill="black" />
+                                        <circle cx="15" cy="9" r="7" fill="black" />
                                     </mask>
-                                    <circle cx="12" cy="12" r="6.9" fill="currentColor" mask="url(#moon-mask)" />
+                                    <circle cx="12" cy="12" r="9" fill="currentColor" mask="url(#moon-mask)" />
                                 </g>
                             </svg>
                         </div>

@@ -68,6 +68,31 @@ def is_authenticated(ip):
 
         return True
 
+# conversation history
+#
+# how many past messages (the user's questions and the bot's answers,
+# combined) are kept per IP and threaded into every prompt, so a follow-up
+# question ("what about that one?") can refer back to what was just discussed
+MAX_HISTORY_MESSAGES = 4
+
+# maps IP address -> list of {"role": "user"/"assistant", "content": ...}
+# messages for that IP, oldest first, capped at MAX_HISTORY_MESSAGES entries
+conversation_history = {}
+conversation_history_lock = Lock()
+
+# appends a message to an IP's history, trimming down to the most recent
+# MAX_HISTORY_MESSAGES entries
+def add_to_history(ip, role, content):
+    with conversation_history_lock:
+        history = conversation_history.setdefault(ip, [])
+        history.append({"role": role, "content": content})
+        del history[:-MAX_HISTORY_MESSAGES]
+
+# returns a snapshot of an IP's current history (empty if it has none yet)
+def get_history(ip):
+    with conversation_history_lock:
+        return list(conversation_history.get(ip, []))
+
 # shift schedule
 
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
@@ -221,10 +246,24 @@ def indices_to_context(indices):
 
 # assembles the final prompt sent to the model: the retrieved knowledge-base
 # context, plus today's day of week, current shift, and current month/year
-# (so day/shift/promotion-relative questions can be answered), plus the
-# rules for how to answer
-def build_prompt(question, context, time_context):
+# (so day/shift/promotion-relative questions can be answered), plus recent
+# conversation history (so follow-up questions can refer back to what was
+# just discussed), plus the rules for how to answer
+def build_prompt(question, context, time_context, history):
     context_text = "\n".join(item["text"] for item in context)
+
+    history_text = "\n".join(
+        f"{'Them' if message['role'] == 'user' else 'You'}: {message['content']}"
+        for message in history
+    )
+
+    history_section = (
+        f"Recent conversation, oldest first — refer back to it only if the current "
+        f"question depends on it (e.g. it says \"that\", \"it\", or otherwise follows "
+        f"up on something just discussed); otherwise ignore it and don't mention it:\n"
+        f"{history_text}\n\n"
+        if history else ""
+    )
 
     prompt = (
         "Answer the question using ONLY the information below, in a warm, friendly, "
@@ -244,6 +283,7 @@ def build_prompt(question, context, time_context):
         "month/year, or the current shift in your answer for questions that have nothing to do with "
         "timing.\n\n"
         f"Information:\n{context_text}\n\n"
+        f"{history_section}"
         f"Question:\n{question}"
     )
 
@@ -334,13 +374,18 @@ def authenticate():
 @app.route("/ask")
 @limiter.limit("5 per minute")
 def answer_question():
-    if not is_authenticated(request.remote_addr):
+    ip = request.remote_addr
+
+    if not is_authenticated(ip):
         return "Looks like your session's expired. Type in your code again and I'll be right here.", 401
 
     question = request.args.get("question")
 
     # computed once so retrieval and the prompt agree on what "today" is
     time_context = current_time_context()
+
+    # this IP's recent back-and-forth, threaded into the prompt below
+    history = get_history(ip)
 
     # have FAISS collect the top k matching data chunks to the question
     distances, indices = retrieve_info(question, K, time_context)
@@ -365,10 +410,15 @@ def answer_question():
     context = indices_to_context(filtered_indices)
 
     # use the context to collect a prompt
-    prompt = build_prompt(question, context, time_context)
+    prompt = build_prompt(question, context, time_context, history)
 
     # use the prompt to generate a response
     response = generate_response(prompt)
+
+    # remember this turn so follow-up questions from the same IP can refer
+    # back to it
+    add_to_history(ip, "user", question)
+    add_to_history(ip, "assistant", response)
 
     return response
 

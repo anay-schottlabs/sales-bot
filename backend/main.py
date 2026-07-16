@@ -175,6 +175,10 @@ def generate_response(prompt):
         skip_special_tokens=True
     ).strip()
 
+@app.route("/authenticate", methods=["GET"])
+def authentication_status():
+    return {"authenticated": is_authenticated(request.remote_addr)}
+
 @app.route("/authenticate", methods=["POST"])
 @limiter.limit("10 per minute")
 def authenticate():

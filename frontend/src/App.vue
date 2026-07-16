@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch, nextTick, onMounted } from 'vue';
 
 const Sender = Object.freeze({
     USER: "user",
@@ -27,10 +27,23 @@ const messagesContainer = ref(null);
 
 const isAuthenticated = ref(false);
 const isAuthenticating = ref(false);
+const isCheckingSession = ref(true);
 const otpCode = ref("");
 const authError = ref("");
 
 const AUTHENTICATE_URL = "http://127.0.0.1:5000/authenticate";
+
+onMounted(async () => {
+    try {
+        const response = await fetch(AUTHENTICATE_URL);
+        const result = await response.json();
+        isAuthenticated.value = response.ok && result.authenticated;
+    } catch {
+        isAuthenticated.value = false;
+    } finally {
+        isCheckingSession.value = false;
+    }
+});
 
 function handleOtpInput(event) {
     const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 6);
@@ -125,8 +138,17 @@ async function sendMessage() {
 </script>
 
 <template>
+    <!-- checking for an already-authenticated session before deciding what to show -->
+    <div v-if="isCheckingSession" class="flex h-screen items-center justify-center">
+        <div class="flex items-center gap-1.5 rounded-2xl bg-base-200 px-4 py-3">
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
+        </div>
+    </div>
+
     <!-- OTP gate: shown until the six-digit code is verified -->
-    <div v-if="!isAuthenticated" class="flex flex-col h-screen max-w-2xl mx-auto px-4 items-center justify-center gap-6 text-center">
+    <div v-else-if="!isAuthenticated" class="flex flex-col h-screen max-w-2xl mx-auto px-4 items-center justify-center gap-6 text-center">
         <div>
             <p class="text-4xl font-bold tracking-tight text-base-content">Verify it's you.</p>
             <p class="mt-2 text-base text-base-content/60">Enter the 6-digit code to continue.</p>

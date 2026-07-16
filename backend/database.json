@@ -25,12 +25,24 @@
     {"category": "Operations > Closing", "text": "On days other than Wednesday, spray Lysol on the front door handles."},
     {"category": "Operations > Closing", "text": "On days other than Wednesday, spray Lysol on the hand sanitizer stations."},
     {"category": "Operations > Closing", "text": "On days other than Wednesday, spray Lysol on the gym door handles."},
+    {"category": "Operations > Closing", "text": "Bring the outdoor A-frame sign and flag inside before closing the studio."},
+    {"category": "Operations > Closing", "text": "Lock the front doors using the hex key before leaving."},
+    {"category": "Operations > Closing", "text": "Before leaving, verify that all doors and the lockbox are locked."},
+    {"category": "Operations > Closing", "text": "Complete all required computer tasks before clocking out."},
+    {"category": "Operations > Closing", "text": "Respond to any remaining LoyalSnap messages before ending the shift."},
+    {"category": "Operations > Closing", "text": "Send confirmation messages to all first-time visitors scheduled for the following day before ending the shift."},
+    {"category": "Operations > Closing", "text": "Tasks assigned to 'Once all members leave' should be completed after the final class of the shift, immediately before closing the studio."},
+
+    {"category": "Operations > Communication", "text": "Throughout every shift, regularly check LoyalSnap, Slack, and missed phone calls for new messages that require a response."},
 
     {"category": "Operations > Gloves", "text": "If rented gloves were used, spray both the inside and outside of each glove with Lysol."},
     {"category": "Operations > Gloves", "text": "After disinfecting rented gloves, hang them on the glove drying rack."},
     {"category": "Operations > Gloves", "text": "Turn on the glove dryer using the small switch on the bottom of the unit."},
     {"category": "Operations > Gloves", "text": "Leave the glove dryer running for 5 minutes before turning it off."},
     {"category": "Operations > Gloves", "text": "Never leave the glove dryer running overnight because it is a fire hazard."},
+
+    {"category": "Operations > Gym", "text": "Close the gym door after the warm-up begins."},
+    {"category": "Operations > Gym", "text": "Open the gym door during the cooldown portion of class."},
 
     {"category": "Operations > Laundry", "text": "Do not run the washer or dryer between 4:00 PM and 9:00 PM."},
     {"category": "Operations > Laundry", "text": "Regardless of the day of the week, place all used towels in the dryer at the end of the shift."},
@@ -51,6 +63,14 @@
     {"category": "Operations > Music", "text": "Lobby music playlists are available in the Spotify app on the front desk computer."},
 
     {"category": "Operations > Opening", "text": "To turn on the gym system, tap the touchscreen on the trainer stand."},
+
+    {"category": "Operations > Shift Recap", "text": "Complete a Slack shift recap before clocking out."},
+    {"category": "Operations > Shift Recap", "text": "The Slack shift recap should include sales results, member updates, completed operational tasks, cleaning status, and notes for the next shift."},
+    {"category": "Operations > Shift Recap", "text": "Do not leave the 'Notes for the Next Shift' section blank. Include any member concerns, incomplete tasks, or action items."},
+
+    {"category": "Sales > Calls", "text": "When a New Lead does not answer the phone, leave a voicemail, record the missed call in LoyalSnap, summarize the voicemail in the notes, and send a follow-up text message."},
+    {"category": "Sales > Calls", "text": "When a prospect answers the phone, record the conversation in LoyalSnap using the OMG format: Objections, Membership Interest, and Goals."},
+    {"category": "Sales > Calls", "text": "OMG stands for Objections, Membership Interest, and Goals."},
 
     {"category": "Sales > Memberships", "text": "Memberships automatically renew every month until they are cancelled."},
     {"category": "Sales > Memberships", "text": "When purchasing a new membership, members may choose to pay a $99 enrollment fee to receive a new pair of gloves and a new pair of hand wraps."},
@@ -175,6 +195,14 @@
     {"category": "Software > Sales Game Plan", "text": "Record sales candidates and their priority level in the sales game plan."},
     {"category": "Software > Sales Game Plan", "text": "Prioritize members as High, Medium, or Low priority in the sales game plan."},
     {"category": "Software > Sales Game Plan", "text": "The sales game plan helps organize which members should be spoken to first after class."},
+
+    {"category": "Studio Operations", "text": "Check PIQ before every shift for first-time visitors and member milestones."},
+    {"category": "Studio Operations", "text": "Record the first name and assigned spot of every first-time visitor."},
+    {"category": "Studio Operations", "text": "Record the first name and class count of every member celebrating a milestone."},
+    {"category": "Studio Operations", "text": "If there are no first-time visitors or milestones for a shift, record that there are none."},
+    {"category": "Studio Operations", "text": "Follow the Milestone SOP whenever a member reaches a milestone."},
+    {"category": "Studio Operations", "text": "Welcome every first-time visitor by giving them a tour of the studio before class."},
+    {"category": "Studio Operations", "text": "Help first-time visitors purchase gloves and hand wraps before their first class if needed."},
 
     {"category": "Systems > ClubReady", "text": "ClubReady is used to review member accounts, attendance history, memberships, class packages, invoices, and billing information."},
 

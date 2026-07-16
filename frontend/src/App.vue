@@ -30,6 +30,7 @@ const isAuthenticating = ref(false);
 const isCheckingSession = ref(true);
 const otpCode = ref("");
 const authError = ref("");
+const shifts = ref([]);
 
 const AUTHENTICATE_URL = "http://127.0.0.1:5050/authenticate";
 
@@ -38,6 +39,10 @@ onMounted(async () => {
         const response = await fetch(AUTHENTICATE_URL);
         const result = await response.json();
         isAuthenticated.value = response.ok && result.authenticated;
+
+        if (isAuthenticated.value) {
+            shifts.value = result.shifts;
+        }
     } catch {
         isAuthenticated.value = false;
     } finally {
@@ -67,6 +72,7 @@ watch(otpCode, async (code) => {
 
             if (response.ok && result.authenticated) {
                 isAuthenticated.value = true;
+                shifts.value = result.shifts;
             } else {
                 authError.value = "Incorrect code. Try again.";
                 otpCode.value = "";

@@ -57,6 +57,41 @@ def is_authenticated(ip):
 
         return True
 
+# shift schedule
+
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+NO_SHIFT_LABEL = "No Shift"
+
+# each entry is the days it applies to, its start/end time ("HH:MM", 24h), and its label
+SHIFTS = [
+    {"label": "Morning Shift", "days": WEEKDAYS, "start": "05:30", "end": "07:30"},
+    {"label": "Noon Shift", "days": WEEKDAYS, "start": "11:00", "end": "13:00"},
+    {"label": "Evening Shift", "days": ["Monday", "Wednesday"], "start": "15:45", "end": "20:15"},
+    {"label": "Evening Shift", "days": ["Tuesday", "Thursday"], "start": "17:00", "end": "20:15"},
+    {"label": "Evening Shift", "days": ["Friday"], "start": "17:00", "end": "19:15"},
+    {"label": "All Day Shift", "days": ["Saturday"], "start": "07:45", "end": "12:45"},
+    {"label": "All Day Shift", "days": ["Sunday"], "start": "07:45", "end": "12:45"},
+]
+
+# figures out which shift (if any) covers the given moment, by day and time-of-day
+def get_current_shift(now=None):
+    now = now or datetime.now()
+    day_name = now.strftime("%A")
+    current_time = now.time()
+
+    for shift in SHIFTS:
+        if day_name not in shift["days"]:
+            continue
+
+        start = datetime.strptime(shift["start"], "%H:%M").time()
+        end = datetime.strptime(shift["end"], "%H:%M").time()
+
+        if start <= current_time <= end:
+            return shift["label"]
+
+    return NO_SHIFT_LABEL
+
 # answering questions
 
 encoding_model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -117,6 +152,7 @@ def indices_to_context(indices):
 def build_prompt(question, context):
     context_text = "\n".join(context)
     day_of_week = datetime.now().strftime("%A")
+    current_shift = get_current_shift()
 
     prompt = (
         "Answer the question using ONLY the information below, in a warm, friendly, "
@@ -128,8 +164,9 @@ def build_prompt(question, context):
         "\"I don't have that one handy, sorry! Is there something else I can help with?\" If the information "
         "below does answer the question, answer it directly and do not say that phrase.\n"
         "Whenever possible and reasonable, answer the question to the best of your ability.\n"
-        f"If the answer depends on the day of the week, use the fact that today is {day_of_week} in your answer, "
-        "and explain any details that change based on the day.\n\n"
+        f"Today is {day_of_week}, and the shift currently underway is: {current_shift}. If the answer "
+        "depends on the day of the week or the current shift, use these facts in your answer, and explain "
+        "any details that change based on the day or shift.\n\n"
         f"Information:\n{context_text}\n\n"
         f"Question:\n{question}"
     )
@@ -187,7 +224,12 @@ def generate_response(prompt):
 
 @app.route("/authenticate", methods=["GET"])
 def authentication_status():
-    return {"authenticated": is_authenticated(request.remote_addr)}
+    authenticated = is_authenticated(request.remote_addr)
+
+    if not authenticated:
+        return {"authenticated": False}
+
+    return {"authenticated": True, "shifts": SHIFTS}
 
 @app.route("/authenticate", methods=["POST"])
 @limiter.limit("10 per minute")
@@ -201,7 +243,7 @@ def authenticate():
     with authenticated_ips_lock:
         authenticated_ips[request.remote_addr] = time.time() + AUTH_DURATION_SECONDS
 
-    return {"authenticated": True}
+    return {"authenticated": True, "shifts": SHIFTS}
 
 @app.route("/ask")
 @limiter.limit("5 per minute")

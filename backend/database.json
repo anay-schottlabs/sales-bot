@@ -1,20 +1,21 @@
 [
-    {"category": "Operations > Closing", "text": "After each class, wipe down all benches."},
+    {"category": "Goals > Calls", "text": "On Mondays, Tuesdays, Wednesdays, and Thursdays, the daily goal is to make 50 outbound calls."},
+    {"category": "Goals > Calls", "text": "On Fridays, Saturdays, and Sundays, the daily goal is to make 40 outbound calls."},
 
-    {"category": "Operations > Music", "text": "There should always be music playing in the lobby."},
-    {"category": "Operations > Music", "text": "Lobby music playlists are available in the Spotify app on the front desk computer."},
+    {"category": "LoyalSnap > First Time Confirmation", "text": "For prospects in the First Time Confirmation category, call them to confirm whether they will attend their upcoming first class."},
+    {"category": "LoyalSnap > First Time Confirmation", "text": "If a prospect in the First Time Confirmation category does not have a valid phone number, email them directly through LoyalSnap."},
+    {"category": "LoyalSnap > First Time Confirmation", "text": "Do not remove a prospect from the First Time Confirmation category until they have responded and confirmed they will attend their class."},
 
-    {"category": "Operations > Opening", "text": "To turn on the gym system, tap the touchscreen on the trainer stand."},
-    {"category": "Operations > Closing", "text": "To turn off the gym system, tap the red power button in the top-right corner of the trainer stand touchscreen and confirm the shutdown by tapping 'Yes'."},
+    {"category": "LoyalSnap > Inbox", "text": "During class, work in LoyalSnap whenever possible."},
+    {"category": "LoyalSnap > Inbox", "text": "During class, regularly check the LoyalSnap inbox and respond to messages as soon as possible."},
 
     {"category": "Operations > Climate", "text": "The gym has two thermostats: one on the left side and one on the right side."},
     {"category": "Operations > Climate", "text": "At the end of the day, set both gym thermostats to 85°F or higher to prevent the fans from running overnight."},
 
-    {"category": "Operations > Laundry", "text": "Do not run the washer or dryer between 4:00 PM and 9:00 PM."},
-
+    {"category": "Operations > Closing", "text": "After each class, wipe down all benches."},
+    {"category": "Operations > Closing", "text": "To turn off the gym system, tap the red power button in the top-right corner of the trainer stand touchscreen and confirm the shutdown by tapping 'Yes'."},
     {"category": "Operations > Closing", "text": "The cleanup crew comes on Wednesday nights and completes most of the cleaning tasks."},
     {"category": "Operations > Closing", "text": "At the end of every shift, complete all required closing tasks before locking the studio and leaving."},
-
     {"category": "Operations > Closing", "text": "On days other than Wednesday, vacuum the bathrooms, lobby, studio, and the platform around the trainer stand."},
     {"category": "Operations > Closing", "text": "On days other than Wednesday, mop the bathrooms, lobby, studio, and the platform around the trainer stand."},
     {"category": "Operations > Closing", "text": "On days other than Wednesday, clean all toilets using the blue toilet cleaner."},
@@ -25,6 +26,13 @@
     {"category": "Operations > Closing", "text": "On days other than Wednesday, spray Lysol on the hand sanitizer stations."},
     {"category": "Operations > Closing", "text": "On days other than Wednesday, spray Lysol on the gym door handles."},
 
+    {"category": "Operations > Gloves", "text": "If rented gloves were used, spray both the inside and outside of each glove with Lysol."},
+    {"category": "Operations > Gloves", "text": "After disinfecting rented gloves, hang them on the glove drying rack."},
+    {"category": "Operations > Gloves", "text": "Turn on the glove dryer using the small switch on the bottom of the unit."},
+    {"category": "Operations > Gloves", "text": "Leave the glove dryer running for 5 minutes before turning it off."},
+    {"category": "Operations > Gloves", "text": "Never leave the glove dryer running overnight because it is a fire hazard."},
+
+    {"category": "Operations > Laundry", "text": "Do not run the washer or dryer between 4:00 PM and 9:00 PM."},
     {"category": "Operations > Laundry", "text": "Regardless of the day of the week, place all used towels in the dryer at the end of the shift."},
     {"category": "Operations > Laundry", "text": "Use 1 laundry detergent pod for a small towel load."},
     {"category": "Operations > Laundry", "text": "Use 2 laundry detergent pods for a large towel load."},
@@ -33,38 +41,40 @@
     {"category": "Operations > Laundry", "text": "When washing towels at the end of a weekend closing shift, set a 15-hour delay start."},
     {"category": "Operations > Laundry", "text": "Do not use a delay start when washing towels at the end of the noon shift."},
 
-    {"category": "Operations > Gloves", "text": "If rented gloves were used, spray both the inside and outside of each glove with Lysol."},
-    {"category": "Operations > Gloves", "text": "After disinfecting rented gloves, hang them on the glove drying rack."},
-    {"category": "Operations > Gloves", "text": "Turn on the glove dryer using the small switch on the bottom of the unit."},
-    {"category": "Operations > Gloves", "text": "Leave the glove dryer running for 5 minutes before turning it off."},
-    {"category": "Operations > Gloves", "text": "Never leave the glove dryer running overnight because it is a fire hazard."},
-
     {"category": "Operations > Lockers", "text": "If a member forgets their locker code or cannot open their locker, use the locker key stored in the cabinet to the left of the front desk."},
     {"category": "Operations > Lockers", "text": "Some lockers remain locked even after using the locker key."},
     {"category": "Operations > Lockers", "text": "To reset a locker, use the key to place the lock in the unlocked position."},
     {"category": "Operations > Lockers", "text": "While the locker is unlocked with the key, rotate every number dial downward until it cannot move any farther."},
     {"category": "Operations > Lockers", "text": "After resetting the number dials, lock the locker, remove the key, and then unlock it normally without the key."},
 
-    {"category": "LoyalSnap > Inbox", "text": "During class, work in LoyalSnap whenever possible."},
-    {"category": "LoyalSnap > Inbox", "text": "During class, regularly check the LoyalSnap inbox and respond to messages as soon as possible."},
+    {"category": "Operations > Music", "text": "There should always be music playing in the lobby."},
+    {"category": "Operations > Music", "text": "Lobby music playlists are available in the Spotify app on the front desk computer."},
 
-    {"category": "LoyalSnap > First Time Confirmation", "text": "For prospects in the First Time Confirmation category, call them to confirm whether they will attend their upcoming first class."},
-    {"category": "LoyalSnap > First Time Confirmation", "text": "If a prospect in the First Time Confirmation category does not have a valid phone number, email them directly through LoyalSnap."},
-    {"category": "LoyalSnap > First Time Confirmation", "text": "Do not remove a prospect from the First Time Confirmation category until they have responded and confirmed they will attend their class."},
-
-    {"category": "Goals > Calls", "text": "On Mondays, Tuesdays, Wednesdays, and Thursdays, the daily goal is to make 50 outbound calls."},
-    {"category": "Goals > Calls", "text": "On Fridays, Saturdays, and Sundays, the daily goal is to make 40 outbound calls."},
-
-    {"category": "Sales > Pricing", "text": "A single drop-in class costs $48."},
+    {"category": "Operations > Opening", "text": "To turn on the gym system, tap the touchscreen on the trainer stand."},
 
     {"category": "Sales > Memberships", "text": "Memberships automatically renew every month until they are cancelled."},
     {"category": "Sales > Memberships", "text": "When purchasing a new membership, members may choose to pay a $99 enrollment fee to receive a new pair of gloves and a new pair of hand wraps."},
     {"category": "Sales > Memberships", "text": "If a new member does not want gloves and hand wraps, the enrollment fee is waived to $0."},
+
+    {"category": "Sales > Objections", "text": "When handling objections, first understand the member's concerns before offering a solution."},
+    {"category": "Sales > Objections", "text": "If a member says they are in a rush, acknowledge their time and explain that the conversation will only take about a minute."},
+    {"category": "Sales > Objections", "text": "If a member says they need time to think, ask what they are specifically unsure about before responding."},
+    {"category": "Sales > Objections", "text": "If a member does not like recurring monthly payments, recommend class packages instead of memberships."},
+    {"category": "Sales > Objections", "text": "If a member is concerned about package expiration dates, consider extending the expiration date when appropriate."},
+    {"category": "Sales > Objections", "text": "Match your recommendation to the member's specific concerns whenever possible."},
+    {"category": "Sales > Objections", "text": "The goal of a sales conversation is to help the member find the option that best fits their needs, not simply to make a sale."},
+
+    {"category": "Sales > Packages", "text": "Class packages are one-time purchases and do not automatically renew."},
+    {"category": "Sales > Packages", "text": "The regular price of the 5-class package is $189."},
+    {"category": "Sales > Packages", "text": "The regular price of the 10-class package is $339."},
+    {"category": "Sales > Packages", "text": "The regular price of the 20-class package is $639."},
+
     {"category": "Sales > Policies", "text": "Membership cancellations require a 30-day notice before the cancellation takes effect."},
     {"category": "Sales > Policies", "text": "Members must email sunnyvale@rumbleboxinggym.com to request cancellation of their membership."},
     {"category": "Sales > Policies", "text": "Members may cancel a class reservation without penalty if they cancel at least 12 hours before the scheduled class."},
     {"category": "Sales > Policies", "text": "Cancelling a class reservation less than 12 hours before the scheduled class results in a $15 late cancellation fee."},
 
+    {"category": "Sales > Pricing", "text": "A single drop-in class costs $48."},
     {"category": "Sales > Pricing", "text": "There are several membership options: 4 classes per month, 6 classes per month, 8 classes per month, 12 classes per month, and Unlimited."},
     {"category": "Sales > Pricing", "text": "The regular price of the 4 classes per month membership is $109 per month."},
     {"category": "Sales > Pricing", "text": "The regular price of the 6 classes per month membership is $119 per month."},
@@ -72,13 +82,26 @@
     {"category": "Sales > Pricing", "text": "The regular price of the 12 classes per month membership is $179 per month."},
     {"category": "Sales > Pricing", "text": "The regular price of the Unlimited membership is $209 per month."},
 
+    {"category": "Sales > Process", "text": "Before members arrive, identify potential sales candidates using PIQ."},
+    {"category": "Sales > Process", "text": "Members who have run out of class credits should be treated as high-priority sales candidates."},
+    {"category": "Sales > Process", "text": "Members with low remaining credits should be treated as medium-priority sales candidates."},
+    {"category": "Sales > Process", "text": "Members with limited memberships who consistently use all of their credits before renewal are good candidates for membership upgrades."},
+    {"category": "Sales > Process", "text": "Use ClubReady to review a member's attendance history when determining whether they are a good upgrade candidate."},
+    {"category": "Sales > Process", "text": "When members arrive, identify unfamiliar members by checking their assigned spot in PIQ so you know who to speak with after class."},
+    {"category": "Sales > Process", "text": "During class, review each sales candidate's bookings, remaining credits, invoices, and account details before speaking with them."},
+    {"category": "Sales > Process", "text": "Low remaining credits do not always mean a member needs to renew because future class bookings also use available credits."},
+    {"category": "Sales > Process", "text": "Before speaking with a prospect, review their LoyalSnap notes, previous conversations, phone calls, tours, and client notes."},
+    {"category": "Sales > Process", "text": "Prioritize sales prospects based on both how likely they are to purchase and the potential value of the purchase."},
+    {"category": "Sales > Process", "text": "Whenever possible, assign a sales conversation to the team member who has the strongest existing relationship with the member."},
+    {"category": "Sales > Process", "text": "After class, begin conversations with the highest-priority prospect who is still in the studio before moving on to lower-priority prospects."},
+    {"category": "Sales > Process", "text": "Begin sales conversations naturally by asking the member what their favorite part of class was."},
+    {"category": "Sales > Process", "text": "Ask members how many times per week they expect to attend so you can recommend the most appropriate membership."},
+    {"category": "Sales > Process", "text": "Recommend one or two membership options that best fit the member's goals and expected attendance."},
+    {"category": "Sales > Process", "text": "Use the plans sheet as a visual aid when explaining membership options."},
+    {"category": "Sales > Process", "text": "After presenting membership options, allow the member time to think instead of continuing to talk."},
+
     {"category": "Sales > Promotions", "text": "During the July 2026 promotion, the 8 classes per month membership costs $152 per month when purchased in person."},
     {"category": "Sales > Promotions", "text": "During the July 2026 promotion, the Unlimited membership costs $157 per month when purchased in person."},
-
-    {"category": "Sales > Packages", "text": "Class packages are one-time purchases and do not automatically renew."},
-    {"category": "Sales > Packages", "text": "The regular price of the 5-class package is $189."},
-    {"category": "Sales > Packages", "text": "The regular price of the 10-class package is $339."},
-    {"category": "Sales > Packages", "text": "The regular price of the 20-class package is $639."},
     {"category": "Sales > Promotions", "text": "During the July 2026 promotion, customers who purchase the 10-class package in person receive 14 total classes for $339."},
     {"category": "Sales > Promotions", "text": "The July 2026 promotion adds 4 bonus classes to the 10-class package at no additional cost."},
 

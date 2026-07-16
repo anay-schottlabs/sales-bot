@@ -183,16 +183,18 @@ async function sendMessage() {
         <p v-else-if="authError" class="text-sm text-error">{{ authError }}</p>
     </div>
 
-    <div v-else class="relative h-screen max-w-2xl mx-auto px-4">
+    <div v-else class="relative h-screen">
         <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header -->
         <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto">
-            <!-- page hero, glassy and pinned to the top of the scroll region -->
-            <div class="sticky top-0 z-10 pt-16 pb-8 text-center bg-gradient-to-b from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
-                <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+            <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width -->
+            <div class="sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
+                <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
+                    <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+                </div>
             </div>
 
             <!-- message history -->
-            <div class="flex flex-col gap-3 px-1 pb-32">
+            <div class="max-w-2xl mx-auto flex flex-col gap-3 px-5 pb-32">
                 <div
                     v-for="message in messages"
                     class="flex"
@@ -216,28 +218,30 @@ async function sendMessage() {
             </div>
         </div>
 
-        <!-- input to type messages, glassy and pinned to the bottom so history blurs beneath it too -->
-        <div class="absolute inset-x-0 bottom-0 z-10 flex justify-center pt-10 pb-12 bg-gradient-to-t from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
-            <div class="relative w-full">
-                <input
-                    type="text"
-                    class="input input-lg w-full rounded-full border border-base-content/10 bg-base-200/60 backdrop-blur-md pr-14 text-base shadow-sm focus:outline-none"
-                    placeholder="Message..."
-                    v-model="messageInput"
-                    @keydown.enter="sendMessage"
-                >
-                <button
-                    type="button"
-                    class="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral/90 backdrop-blur-sm text-neutral-content transition-colors disabled:cursor-default disabled:bg-base-300/70 disabled:text-[oklch(58%_0.012_250)]"
-                    :disabled="messageInput === '' || isWaitingForResponse"
-                    @click="sendMessage"
-                    aria-label="Send message"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                        <path d="M12 19V5" />
-                        <path d="M5 12l7-7 7 7" />
-                    </svg>
-                </button>
+        <!-- input to type messages, glassy and pinned to the bottom so history blurs beneath it too — full screen width -->
+        <div class="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
+            <div class="max-w-2xl mx-auto flex justify-center px-4 pt-10 pb-12">
+                <div class="relative w-full">
+                    <input
+                        type="text"
+                        class="input input-lg w-full rounded-full border border-base-content/10 bg-base-200/60 backdrop-blur-md pr-14 text-base shadow-sm focus:outline-none"
+                        placeholder="Message..."
+                        v-model="messageInput"
+                        @keydown.enter="sendMessage"
+                    >
+                    <button
+                        type="button"
+                        class="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-neutral/90 backdrop-blur-sm text-neutral-content transition-colors disabled:cursor-default disabled:bg-base-300/70 disabled:text-[oklch(58%_0.012_250)]"
+                        :disabled="messageInput === '' || isWaitingForResponse"
+                        @click="sendMessage"
+                        aria-label="Send message"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                            <path d="M12 19V5" />
+                            <path d="M5 12l7-7 7 7" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

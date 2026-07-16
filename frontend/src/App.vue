@@ -42,8 +42,7 @@ const greeting = computed(() => {
     return "Good evening.";
 });
 
-const REQUEST_URL = "http://127.0.0.1:5000/ask?";
-const QUESTION_PARAM = "question=";
+const REQUEST_URL = "http://127.0.0.1:5000/ask?question=";
 
 async function sendMessage() {
     if (messageInput.value != "" && !isWaitingForResponse.value) {
@@ -60,8 +59,9 @@ async function sendMessage() {
         try {
             const response = await fetch(
                 REQUEST_URL +
-                QUESTION_PARAM + encodeURIComponent(question)
+                encodeURIComponent(question)
             );
+       
             const answerText = await response.text();
             messages.value.push(
                 new Message(

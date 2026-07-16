@@ -239,15 +239,15 @@ async function sendMessage() {
 
                             <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->
                             <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
-                                <circle cx="12" cy="12" r="4.2" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(45 12 12)" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(90 12 12)" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(135 12 12)" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(180 12 12)" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(225 12 12)" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(270 12 12)" />
-                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(315 12 12)" />
+                                <circle cx="12" cy="12" r="5" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(45 12 12)" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(90 12 12)" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(135 12 12)" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(180 12 12)" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(225 12 12)" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(270 12 12)" />
+                                <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(315 12 12)" />
                             </svg>
 
                             <!-- crescent moon -->

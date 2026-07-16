@@ -228,15 +228,17 @@ async function sendMessage() {
                     <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
                         <!-- TEMP: all three side by side with no cycling logic, just to compare them -->
                         <div class="flex items-center justify-center gap-4">
-                            <!-- sunrise: dome + horizon bar + dot rays (same 0°/±35°/±70° spread as before) -->
+                            <!-- sunrise: same full circle as the afternoon sun, but with dots instead of capsule rays -->
                             <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
-                                <path d="M5 17a7 7 0 0 1 14 0Z" />
-                                <rect x="4" y="19.5" width="16" height="2" rx="1" />
-                                <circle cx="12" cy="5.5" r="1.6" />
-                                <circle cx="12" cy="5.5" r="1.6" transform="rotate(35 12 17)" />
-                                <circle cx="12" cy="5.5" r="1.6" transform="rotate(-35 12 17)" />
-                                <circle cx="12" cy="5.5" r="1.6" transform="rotate(70 12 17)" />
-                                <circle cx="12" cy="5.5" r="1.6" transform="rotate(-70 12 17)" />
+                                <circle cx="12" cy="12" r="5" />
+                                <circle cx="12" cy="2.1" r="1.6" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(45 12 12)" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(90 12 12)" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(135 12 12)" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(180 12 12)" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(225 12 12)" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(270 12 12)" />
+                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(315 12 12)" />
                             </svg>
 
                             <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->

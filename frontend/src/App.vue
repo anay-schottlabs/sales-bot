@@ -25,6 +25,48 @@ const isWaitingForResponse = ref(false);
 
 const messagesContainer = ref(null);
 
+const isAuthenticated = ref(false);
+const isAuthenticating = ref(false);
+const otpCode = ref("");
+const authError = ref("");
+
+const AUTHENTICATE_URL = "http://127.0.0.1:5000/authenticate";
+
+function handleOtpInput(event) {
+    const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 6);
+    otpCode.value = digitsOnly;
+    event.target.value = digitsOnly;
+}
+
+watch(otpCode, async (code) => {
+    if (code.length === 6 && !isAuthenticating.value) {
+        isAuthenticating.value = true;
+        authError.value = "";
+
+        try {
+            const response = await fetch(AUTHENTICATE_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.authenticated) {
+                isAuthenticated.value = true;
+            } else {
+                authError.value = "Incorrect code. Try again.";
+                otpCode.value = "";
+            }
+        } catch {
+            authError.value = "Couldn't reach the server. Try again.";
+            otpCode.value = "";
+        } finally {
+            isAuthenticating.value = false;
+        }
+    }
+});
+
 watch(
     () => [messages.value.length, isWaitingForResponse.value],
     async () => {
@@ -61,7 +103,13 @@ async function sendMessage() {
                 REQUEST_URL +
                 encodeURIComponent(question)
             );
-       
+
+            if (response.status === 401) {
+                isAuthenticated.value = false;
+                authError.value = "Your session expired. Verify again to continue.";
+                return;
+            }
+
             const answerText = await response.text();
             messages.value.push(
                 new Message(
@@ -77,7 +125,43 @@ async function sendMessage() {
 </script>
 
 <template>
-    <div class="flex flex-col h-screen max-w-2xl mx-auto px-4">
+    <!-- OTP gate: shown until the six-digit code is verified -->
+    <div v-if="!isAuthenticated" class="flex flex-col h-screen max-w-2xl mx-auto px-4 items-center justify-center gap-6 text-center">
+        <div>
+            <p class="text-4xl font-bold tracking-tight text-base-content">Verify it's you.</p>
+            <p class="mt-2 text-base text-base-content/60">Enter the 6-digit code to continue.</p>
+        </div>
+
+        <label class="otp otp-lg" :class="authError ? 'otp-error' : ''">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <input
+                type="text"
+                autocomplete="one-time-code"
+                inputmode="numeric"
+                maxlength="6"
+                pattern="[0-9]{6}"
+                :value="otpCode"
+                :disabled="isAuthenticating"
+                autofocus
+                required
+                @input="handleOtpInput"
+            >
+        </label>
+
+        <div v-if="isAuthenticating" class="flex items-center gap-1.5 rounded-2xl bg-base-200 px-4 py-3">
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
+        </div>
+        <p v-else-if="authError" class="text-sm text-error">{{ authError }}</p>
+    </div>
+
+    <div v-else class="flex flex-col h-screen max-w-2xl mx-auto px-4">
         <!-- page hero -->
         <div class="shrink-0 pt-16 pb-8 text-center">
             <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>

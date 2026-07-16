@@ -175,26 +175,25 @@ def generate_response(prompt):
         skip_special_tokens=True
     ).strip()
 
-@app.route("/authenticate")
+@app.route("/authenticate", methods=["POST"])
+@limiter.limit("10 per minute")
 def authenticate():
-    code = request.args.get("code", "")
+    data = request.get_json(silent=True) or {}
+    code = str(data.get("code", ""))
 
-    if not (code.isdigit() and len(code) == 6):
-        return "Invalid code."
-
-    if code != AUTH_CODE:
-        return "Invalid code."
+    if not (code.isdigit() and len(code) == 6) or code != AUTH_CODE:
+        return {"authenticated": False}, 401
 
     with authenticated_ips_lock:
         authenticated_ips[request.remote_addr] = time.time() + AUTH_DURATION_SECONDS
 
-    return "Authenticated."
+    return {"authenticated": True}
 
 @app.route("/ask")
 @limiter.limit("5 per minute")
 def answer_question():
     if not is_authenticated(request.remote_addr):
-        return "The password was bypassed, you can't send messages without authenticating first."
+        return "The password was bypassed, you can't send messages without authenticating first.", 401
 
     question = request.args.get("question")
 

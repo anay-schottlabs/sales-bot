@@ -6,8 +6,11 @@ const Sender = Object.freeze({
     BOT: "bot"
 });
 
+let nextMessageId = 0;
+
 class Message {
     constructor(text, sender) {
+        this.id = nextMessageId++;
         this.text = text;
         this.sender = sender;
     }
@@ -282,9 +285,14 @@ async function sendMessage() {
             </div>
 
             <!-- message history -->
-            <div class="max-w-2xl mx-auto flex flex-col gap-3 px-5 pb-32">
+            <TransitionGroup
+                tag="div"
+                name="message"
+                class="max-w-2xl mx-auto flex flex-col gap-3 px-5 pb-32"
+            >
                 <div
                     v-for="message in messages"
+                    :key="message.id"
                     class="flex"
                     :class="message.sender == Sender.BOT ? 'justify-start' : 'justify-end'"
                 >
@@ -296,14 +304,14 @@ async function sendMessage() {
                     </div>
                 </div>
 
-                <div v-if="isWaitingForResponse" class="flex justify-start">
+                <div v-if="isWaitingForResponse" key="loading-indicator" class="flex justify-start">
                     <div class="flex items-center gap-1.5 rounded-2xl bg-base-200/70 backdrop-blur-md px-4 py-3">
                         <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:0ms]"></span>
                         <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:150ms]"></span>
                         <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-base-content/50 [animation-delay:300ms]"></span>
                     </div>
                 </div>
-            </div>
+            </TransitionGroup>
         </div>
 
         <!-- input to type messages, glassy and pinned to the bottom so history blurs beneath it too — full screen width -->
@@ -334,3 +342,27 @@ async function sendMessage() {
         </div>
     </div>
 </template>
+
+<style scoped>
+.message-enter-active {
+    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+}
+
+.message-enter-from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.97);
+}
+
+.message-move {
+    transition: transform 0.35s ease-out;
+}
+
+.message-leave-active {
+    transition: opacity 0.2s ease-in;
+    position: absolute;
+}
+
+.message-leave-to {
+    opacity: 0;
+}
+</style>

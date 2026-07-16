@@ -219,8 +219,10 @@ async function sendMessage() {
             <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width -->
             <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">
                 <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
-                    <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
-                    <p class="mt-2 text-sm text-base-content/60">{{ currentDayAndShift }}</p>
+                    <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
+                        <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+                        <p class="mt-2 text-sm text-base-content/60">{{ currentDayAndShift }}</p>
+                    </div>
                 </div>
             </div>
 

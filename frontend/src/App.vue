@@ -232,9 +232,11 @@ async function sendMessage() {
                             <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
                                 <path d="M5 17a7 7 0 0 1 14 0Z" />
                                 <rect x="4" y="19.5" width="16" height="1.6" rx="0.8" />
-                                <rect x="11.1" y="5.5" width="1.8" height="4" rx="0.9" />
-                                <rect x="11.1" y="5.5" width="1.8" height="4" rx="0.9" transform="rotate(45 12 17)" />
-                                <rect x="11.1" y="5.5" width="1.8" height="4" rx="0.9" transform="rotate(-45 12 17)" />
+                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" />
+                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(25 12 17)" />
+                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(-25 12 17)" />
+                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(50 12 17)" />
+                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(-50 12 17)" />
                             </svg>
 
                             <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->

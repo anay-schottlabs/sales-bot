@@ -65,7 +65,7 @@
     "Members may cancel a class reservation without penalty if they cancel at least 12 hours before the scheduled class.",
     "Cancelling a class reservation less than 12 hours before the scheduled class results in a $15 late cancellation fee.",
 
-    "There are five membership options: 4 classes per month, 6 classes per month, 8 classes per month, 12 classes per month, and Unlimited.",
+    "There are several membership options: 4 classes per month, 6 classes per month, 8 classes per month, 12 classes per month, and Unlimited.",
     "The regular price of the 4 classes per month membership is $109 per month.",
     "The regular price of the 6 classes per month membership is $119 per month.",
     "The regular price of the 8 classes per month membership is $169 per month.",
@@ -91,5 +91,20 @@
     "On Fridays, the Evening Shift runs from 5:00 PM until 7:15 PM.",
     "On Saturdays, the All Day Shift runs from 7:45 AM until 12:45 PM.",
     "On Sundays, the All Day Shift runs from 7:45 AM until 12:45 PM.",
-    "Outside of the Morning Shift, Noon Shift, Evening Shift, and All Day Shift windows, there is no scheduled shift."
+    "Outside of the Morning Shift, Noon Shift, Evening Shift, and All Day Shift windows, there is no scheduled shift.",
+
+    "On Monday, there are three shifts: the Morning Shift from 5:30 AM to 7:30 AM, the Noon Shift from 11:00 AM to 1:00 PM, and the Evening Shift from 3:45 PM to 8:15 PM.",
+    "On Tuesday, there are three shifts: the Morning Shift from 5:30 AM to 7:30 AM, the Noon Shift from 11:00 AM to 1:00 PM, and the Evening Shift from 5:00 PM to 8:15 PM.",
+    "On Wednesday, there are three shifts: the Morning Shift from 5:30 AM to 7:30 AM, the Noon Shift from 11:00 AM to 1:00 PM, and the Evening Shift from 3:45 PM to 8:15 PM.",
+    "On Thursday, there are three shifts: the Morning Shift from 5:30 AM to 7:30 AM, the Noon Shift from 11:00 AM to 1:00 PM, and the Evening Shift from 5:00 PM to 8:15 PM.",
+    "On Friday, there are three shifts: the Morning Shift from 5:30 AM to 7:30 AM, the Noon Shift from 11:00 AM to 1:00 PM, and the Evening Shift from 5:00 PM to 7:15 PM.",
+    "On Saturday, there is one shift: the All Day Shift from 7:45 AM to 12:45 PM.",
+    "On Sunday, there is one shift: the All Day Shift from 7:45 AM to 12:45 PM.",
+
+    "On weekdays (Monday through Friday), there is no scheduled shift before 5:30 AM, between 7:30 AM and 11:00 AM, or after that day's Evening Shift ends.",
+    "On Mondays and Wednesdays, there is no scheduled shift between 1:00 PM and 3:45 PM.",
+    "On Tuesdays, Thursdays, and Fridays, there is no scheduled shift between 1:00 PM and 5:00 PM.",
+    "On Saturdays and Sundays, there is no scheduled shift before 7:45 AM or after 12:45 PM.",
+    "Shifts never overlap — at any given moment, at most one shift is active.",
+    "Across a full week there are 17 scheduled shifts in total: three shifts on each of Monday through Friday (15 total), plus one shift each on Saturday and Sunday (2 total)."
 ]

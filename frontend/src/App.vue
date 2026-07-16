@@ -228,15 +228,14 @@ async function sendMessage() {
                     <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
                         <!-- TEMP: all three side by side with no cycling logic, just to compare them -->
                         <div class="flex items-center justify-center gap-4">
-                            <!-- sunrise: filled dome + horizon bar + capsule rays rotated around the dome center -->
+                            <!-- sunrise: filled dome + capsule rays, rotated around the dome center, no horizon bar -->
                             <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
                                 <path d="M5 17a7 7 0 0 1 14 0Z" />
-                                <rect x="4" y="19.5" width="16" height="1.6" rx="0.8" />
-                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" />
-                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(25 12 17)" />
-                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(-25 12 17)" />
-                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(50 12 17)" />
-                                <rect x="11" y="3.5" width="2" height="4.5" rx="1" transform="rotate(-50 12 17)" />
+                                <rect x="11" y="4.5" width="2" height="3.5" rx="1" />
+                                <rect x="11" y="4.5" width="2" height="3.5" rx="1" transform="rotate(32.5 12 17)" />
+                                <rect x="11" y="4.5" width="2" height="3.5" rx="1" transform="rotate(-32.5 12 17)" />
+                                <rect x="11" y="4.5" width="2" height="3.5" rx="1" transform="rotate(65 12 17)" />
+                                <rect x="11" y="4.5" width="2" height="3.5" rx="1" transform="rotate(-65 12 17)" />
                             </svg>
 
                             <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->

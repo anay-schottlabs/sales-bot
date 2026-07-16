@@ -219,7 +219,7 @@ async function sendMessage() {
             <span></span>
             <span></span>
             <input
-                type="text"
+                type="password"
                 autocomplete="one-time-code"
                 inputmode="numeric"
                 maxlength="6"

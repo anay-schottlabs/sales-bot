@@ -226,10 +226,12 @@ async function sendMessage() {
             <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">
                 <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
                     <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
-                        <!-- TEMP: all three side by side with no cycling logic, just to compare them -->
-                        <div class="flex items-center justify-center gap-4">
-                            <!-- sunrise: same full circle as the afternoon sun, but with dots instead of capsule rays -->
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
+                        <div class="flex items-center justify-center">
+                            <!-- sunrise: full circle with dots instead of capsule rays -->
+                            <svg
+                                v-if="timeOfDay === 'morning'"
+                                viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content"
+                            >
                                 <circle cx="12" cy="12" r="5" />
                                 <circle cx="12" cy="2.1" r="1" />
                                 <circle cx="12" cy="2.1" r="1" transform="rotate(45 12 12)" />
@@ -241,8 +243,11 @@ async function sendMessage() {
                                 <circle cx="12" cy="2.1" r="1" transform="rotate(315 12 12)" />
                             </svg>
 
-                            <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->
-                            <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
+                            <!-- full sun: filled circle + capsule rays, rotated around the sun center -->
+                            <svg
+                                v-else-if="timeOfDay === 'afternoon'"
+                                viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content"
+                            >
                                 <circle cx="12" cy="12" r="5" />
                                 <rect x="11" y="0.5" width="2" height="4.5" rx="1" />
                                 <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(45 12 12)" />
@@ -254,8 +259,8 @@ async function sendMessage() {
                                 <rect x="11" y="0.5" width="2" height="4.5" rx="1" transform="rotate(315 12 12)" />
                             </svg>
 
-                            <!-- crescent moon: cusp tips rounded via blur+alpha-threshold (masks don't have "corners" to round directly), sized to match the suns' visual weight -->
-                            <svg viewBox="0 0 24 24" class="h-11 w-11 shrink-0 text-base-content">
+                            <!-- crescent moon: cusp tips rounded via blur+alpha-threshold (masks don't have "corners" to round directly) -->
+                            <svg v-else viewBox="0 0 24 24" class="h-11 w-11 shrink-0 text-base-content">
                                 <filter id="moon-round" x="-30%" y="-30%" width="160%" height="160%">
                                     <feGaussianBlur in="SourceGraphic" stdDeviation="0.47" result="blur" />
                                     <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" />

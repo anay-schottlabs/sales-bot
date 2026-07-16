@@ -6,6 +6,8 @@ const Sender = Object.freeze({
     BOT: "bot"
 });
 
+// incrementing id rather than array index, so TransitionGroup's :key stays
+// stable even if the list is ever manipulated beyond simple appends
 let nextMessageId = 0;
 
 class Message {
@@ -26,17 +28,22 @@ const messages = ref([
 const messageInput = ref("");
 const isWaitingForResponse = ref(false);
 
+// the scrollable message-list element; watched below to auto-scroll on new messages
 const messagesContainer = ref(null);
 
+// auth/session state
 const isAuthenticated = ref(false);
 const isAuthenticating = ref(false);
-const isCheckingSession = ref(true);
+const isCheckingSession = ref(true); // true only during the initial onMounted check below
 const otpCode = ref("");
 const authError = ref("");
-const shifts = ref([]);
+const shifts = ref([]); // the shift schedule, sent by the backend once authenticated
 
 const AUTHENTICATE_URL = "http://127.0.0.1:5050/authenticate";
 
+// on load, ask the backend whether this IP is still within an authenticated
+// window (see is_authenticated() in main.py) so a page reload doesn't force
+// the user through the OTP gate again if their session hasn't expired
 onMounted(async () => {
     try {
         const response = await fetch(AUTHENTICATE_URL);
@@ -53,12 +60,16 @@ onMounted(async () => {
     }
 });
 
+// the OTP <input> is bound via :value/@input (not v-model) specifically so
+// every keystroke can be sanitized here — strips anything non-numeric and
+// caps the length, so otpCode can never end up holding a bad value
 function handleOtpInput(event) {
     const digitsOnly = event.target.value.replace(/\D/g, "").slice(0, 6);
     otpCode.value = digitsOnly;
     event.target.value = digitsOnly;
 }
 
+// auto-submits as soon as all 6 digits are entered, no separate "verify" button
 watch(otpCode, async (code) => {
     if (code.length === 6 && !isAuthenticating.value) {
         isAuthenticating.value = true;
@@ -90,6 +101,9 @@ watch(otpCode, async (code) => {
     }
 });
 
+// keeps the view pinned to the latest message — fires on a new message AND
+// on the loading indicator toggling, since that also shifts scroll height.
+// nextTick is needed because the DOM hasn't re-rendered yet when this runs
 watch(
     () => [messages.value.length, isWaitingForResponse.value],
     async () => {
@@ -100,6 +114,8 @@ watch(
     }
 );
 
+// single source of truth for the hour thresholds, so the greeting text and
+// the icon shown in the template (v-if on timeOfDay) can never disagree
 const timeOfDay = computed(() => {
     const hour = new Date().getHours();
     if (hour < 12) return "morning";
@@ -154,8 +170,10 @@ async function sendMessage() {
             const response = await fetch(
                 REQUEST_URL + encodeURIComponent(question)
             );
-       
 
+            // the backend's auth window (AUTH_DURATION_SECONDS in main.py) can
+            // lapse mid-conversation; bounce back to the OTP gate instead of
+            // showing the denial text as if it were a real answer
             if (response.status === 401) {
                 isAuthenticated.value = false;
                 authError.value = "Your session expired. Verify again to continue.";
@@ -344,6 +362,7 @@ async function sendMessage() {
 </template>
 
 <style scoped>
+/* new messages/loading-indicator fade + slide in */
 .message-enter-active {
     transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
@@ -353,12 +372,17 @@ async function sendMessage() {
     transform: translateY(14px) scale(0.97);
 }
 
+/* Vue's FLIP transition: smoothly animates the *other* bubbles sliding into
+   their new position when the list changes (e.g. the loading indicator
+   above the input appearing/disappearing) */
 .message-move {
     transition: transform 0.35s ease-out;
 }
 
 .message-leave-active {
     transition: opacity 0.2s ease-in;
+    /* takes the leaving element out of flow so it doesn't block/offset the
+       .message-move animation of the elements around it while it fades out */
     position: absolute;
 }
 

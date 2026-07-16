@@ -31,7 +31,7 @@ const isCheckingSession = ref(true);
 const otpCode = ref("");
 const authError = ref("");
 
-const AUTHENTICATE_URL = "http://127.0.0.1:5000/authenticate";
+const AUTHENTICATE_URL = "http://127.0.0.1:5050/authenticate";
 
 onMounted(async () => {
     try {
@@ -97,7 +97,7 @@ const greeting = computed(() => {
     return "Good evening.";
 });
 
-const REQUEST_URL = "http://127.0.0.1:5000/ask?question=";
+const REQUEST_URL = "http://127.0.0.1:5050/ask?question=";
 
 async function sendMessage() {
     if (messageInput.value != "" && !isWaitingForResponse.value) {
@@ -113,9 +113,9 @@ async function sendMessage() {
 
         try {
             const response = await fetch(
-                REQUEST_URL +
-                encodeURIComponent(question)
+                REQUEST_URL + encodeURIComponent(question)
             );
+       
 
             if (response.status === 401) {
                 isAuthenticated.value = false;

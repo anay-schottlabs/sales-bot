@@ -80,7 +80,10 @@ index = faiss.IndexFlatIP(embedding_dimension)
 index.add(embeddings.astype("float32"))
 
 # define the K chunks of data that FAISS will collect
-K = 3
+K = 10
+
+# Minimum score to consider a database chunk relevant
+SCORE_THRESHOLD = 0.5
 
 # index retrieval function
 def retrieve_info(question, k):
@@ -119,11 +122,12 @@ def build_prompt(question, context):
         "Answer the question using ONLY the information below. Provide exactly one "
         "complete, elaborated answer that explains your reasoning rather than simply responding 'yes' or 'no'. "
         "Do not add extra questions, extra answers, or unrelated text beyond your one thorough answer.\n"
-        "Only respond with the exact phrase \"I don't have that information.\" if none "
-        "of the information below answers the question. If the information below does "
+        "If none of the information below answers the question, only respond with the exact phrase "
+        "\"I don't have that information.\" If the information below does "
         "answer the question, answer it directly and do not say that phrase.\n"
-        "Whenever possible and reasonable, answer the question to the best of your ability.\n\n"
-        f"Today is {day_of_week}.\n\n"
+        "Whenever possible and reasonable, answer the question to the best of your ability.\n"
+        "If the answer depends on the day of the week, use the fact that today is {day_of_week} in your answer, "
+        "and explain any details that change based on the day.\n\n"
         f"Information:\n{context_text}\n\n"
         f"Question:\n{question}"
     )
@@ -212,8 +216,19 @@ def answer_question():
     distances = np.squeeze(distances)
     indices = np.squeeze(indices)
 
+    # filter out indices based on threshold
+    filtered_indices = []
+    for i in range(len(distances)):
+        if distances[i] >= SCORE_THRESHOLD:
+            filtered_indices.append(indices[i])
+    
+    # if no indices met the threshold
+    # the request doesn't match what is known in the database
+    if len(filtered_indices) == 0:
+        return "NO CONTEXT MEETS THRESHOLD"
+
     # compare indices with database to get actual text
-    context = indices_to_context(indices)
+    context = indices_to_context(filtered_indices)
 
     # use the context to collect a prompt
     prompt = build_prompt(question, context)
@@ -224,4 +239,4 @@ def answer_question():
     return response
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, threaded=True)
+    app.run(host="127.0.0.1", port=5050, threaded=True)

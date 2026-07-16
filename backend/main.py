@@ -5,19 +5,22 @@ from datetime import datetime
 from pathlib import Path
 from threading import Lock
 
+import faiss
+import numpy as np
+import torch
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
+# reads .env into the process environment (e.g. AUTH_CODE below) — must run
+# before anything that touches os.environ
 load_dotenv()
 
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import torch
+# app setup
 
 app = Flask(__name__)
 CORS(app)
@@ -27,11 +30,6 @@ limiter = Limiter(
     app=app,
     default_limits=["20 per minute"]
 )
-
-DATABASE_PATH = Path(__file__).parent / "database.json"
-
-with open(DATABASE_PATH) as f:
-    database = json.load(f)
 
 # authentication
 
@@ -92,7 +90,18 @@ def get_current_shift(now=None):
 
     return NO_SHIFT_LABEL
 
-# answering questions
+# knowledge base retrieval
+#
+# the database is a flat list of short factual strings. we embed each one
+# ahead of time, then at question-time embed the question the same way and
+# use FAISS to find the entries whose meaning is closest to it — this is
+# what lets the bot match "when do you open" against "gym hours" without
+# needing the exact same wording.
+
+DATABASE_PATH = Path(__file__).parent / "database.json"
+
+with open(DATABASE_PATH) as f:
+    database = json.load(f)
 
 encoding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -108,16 +117,19 @@ embeddings = encoding_model.encode(
 # embeddings[1] gives Y, the embedding dimension
 embedding_dimension = embeddings.shape[1]
 
-# create an empty FAISS database with the embedding dimension
+# IndexFlatIP does an exact nearest-neighbor search using inner product,
+# which is equivalent to cosine similarity here since every embedding
+# above is normalized
 index = faiss.IndexFlatIP(embedding_dimension)
 
 # add embeddings
 index.add(embeddings.astype("float32"))
 
-# define the K chunks of data that FAISS will collect
+# how many candidate chunks FAISS returns per question
 K = 10
 
-# Minimum score to consider a database chunk relevant
+# how similar (cosine similarity, 0-1) a chunk must be to the question to
+# be trusted as real context, rather than a coincidental near-match
 SCORE_THRESHOLD = 0.5
 
 # index retrieval function
@@ -139,7 +151,8 @@ def retrieve_info(question, k):
 
     return distances, indices
 
-# a function to convert indices into context
+# converts FAISS result indices (row numbers into `database`) back into the
+# actual text of those database entries
 def indices_to_context(indices):
     context = []
 
@@ -148,7 +161,11 @@ def indices_to_context(indices):
 
     return context
 
-# a function to compile everything into a single prompt
+# prompt construction
+
+# assembles the final prompt sent to the model: the retrieved knowledge-base
+# context, plus today's day of week and current shift (so day/shift-relative
+# questions can be answered), plus the rules for how to answer
 def build_prompt(question, context):
     context_text = "\n".join(context)
     day_of_week = datetime.now().strftime("%A")
@@ -173,7 +190,8 @@ def build_prompt(question, context):
 
     return prompt
 
-# define the model
+# language model
+
 model_name = "Qwen/Qwen2.5-3B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 llm = AutoModelForCausalLM.from_pretrained(
@@ -222,6 +240,10 @@ def generate_response(prompt):
         skip_special_tokens=True
     ).strip()
 
+# routes
+
+# lets the frontend check, on page load/reload, whether this IP is still
+# within an authenticated window — without needing to resubmit a code
 @app.route("/authenticate", methods=["GET"])
 def authentication_status():
     authenticated = is_authenticated(request.remote_addr)
@@ -231,6 +253,8 @@ def authentication_status():
 
     return {"authenticated": True, "shifts": SHIFTS}
 
+# verifies a submitted 6-digit code and, if correct, marks this IP
+# authenticated for AUTH_DURATION_SECONDS
 @app.route("/authenticate", methods=["POST"])
 @limiter.limit("10 per minute")
 def authenticate():
@@ -245,6 +269,9 @@ def authenticate():
 
     return {"authenticated": True, "shifts": SHIFTS}
 
+# answers a question: retrieves relevant knowledge-base context, filters out
+# anything too dissimilar to be trustworthy, then asks the LLM to answer
+# using only that context
 @app.route("/ask")
 @limiter.limit("5 per minute")
 def answer_question():
@@ -266,7 +293,7 @@ def answer_question():
     for i in range(len(distances)):
         if distances[i] >= SCORE_THRESHOLD:
             filtered_indices.append(indices[i])
-    
+
     # if no indices met the threshold
     # the request doesn't match what is known in the database
     if len(filtered_indices) == 0:

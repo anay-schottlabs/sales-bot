@@ -236,6 +236,8 @@ async function sendMessage() {
                             >
                                 <path d="M5 17a7 7 0 0 1 14 0" />
                                 <path d="M12 4v3" />
+                                <path d="M19.1 9.9 21.2 7.8" />
+                                <path d="M4.9 9.9 2.8 7.8" />
                                 <path d="M3 21h18" />
                             </svg>
 
@@ -250,6 +252,10 @@ async function sendMessage() {
                                 <path d="M12 19v2" />
                                 <path d="M3 12h2" />
                                 <path d="M19 12h2" />
+                                <path d="M16.9 7.1 18.4 5.6" />
+                                <path d="M16.9 16.9 18.4 18.4" />
+                                <path d="M7.1 16.9 5.6 18.4" />
+                                <path d="M7.1 7.1 5.6 5.6" />
                             </svg>
 
                             <!-- crescent moon -->

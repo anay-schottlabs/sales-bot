@@ -249,7 +249,7 @@ def authenticate():
 @limiter.limit("5 per minute")
 def answer_question():
     if not is_authenticated(request.remote_addr):
-        return "Looks like your session's expired — pop in your code again and I'll be right here.", 401
+        return "Looks like your session's expired. Type in your code again and I'll be right here.", 401
 
     question = request.args.get("question")
 
@@ -270,7 +270,7 @@ def answer_question():
     # if no indices met the threshold
     # the request doesn't match what is known in the database
     if len(filtered_indices) == 0:
-        return "Hmm, I'm not confident I've got a good answer for that one — mind rephrasing, or asking me something else?"
+        return "Hmm, I'm not confident I've got a good answer for that one. Could you rephrase, or ask me something else?"
 
     # compare indices with database to get actual text
     context = indices_to_context(filtered_indices)

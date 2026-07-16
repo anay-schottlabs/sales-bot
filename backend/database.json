@@ -163,6 +163,78 @@
     {"category": "Sales > Promotions", "text": "During the July 2026 promotion, customers who purchase the 10-class package in person receive 14 total classes for $339."},
     {"category": "Sales > Promotions", "text": "The July 2026 promotion adds 4 bonus classes to the 10-class package at no additional cost."},
 
+    {"category": "Sales > Voicemail Scripts > BOGO Next Class Booking > Context", "text": "Use this voicemail when following up with a customer who attended a BOGO promotional class and needs encouragement to schedule their next class."},
+
+    {"category": "Sales > Voicemail Scripts > BOGO Next Class Booking > Guidelines", "text": "Mention that the customer did well in their previous session and offer assistance booking their next class. Encourage a simple call or text response."},
+
+    {"category": "Sales > Voicemail Scripts > BOGO Next Class Booking > Purpose", "text": "The purpose of this voicemail is to reconnect after the customer's first session, acknowledge their experience, and help them continue attending classes."},
+
+    {"category": "Sales > Voicemail Scripts > BOGO Next Class Booking > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. Hope you're doing well! I wanted to reach out and help you get your next class booked. You did great in your last session, and we'd love to have you back in the studio. Give me a call or shoot me a text when you get a chance, and we'll get you set up."},
+
+    {"category": "Sales > Voicemail Scripts > First Class Confirmation > Context", "text": "Use this voicemail when a customer has booked their first class at Rumble Boxing Sunnyvale and needs confirmation before attending."},
+
+    {"category": "Sales > Voicemail Scripts > First Class Confirmation > Guidelines", "text": "Tell the customer to arrive approximately 25 minutes early for check-in and a pre-class introduction. Explain that gloves and wraps can be brought if they have them, but rentals and wraps are available at the studio. Offer assistance with any questions before class."},
+
+    {"category": "Sales > Voicemail Scripts > First Class Confirmation > Purpose", "text": "The purpose of this voicemail is to confirm the customer's first class, reduce uncertainty before their first visit, explain arrival expectations, and make sure they know what equipment is available."},
+
+    {"category": "Sales > Voicemail Scripts > First Class Confirmation > Restrictions", "text": "Do not tell customers they must own boxing equipment before attending. Do not assume they already know the studio process or class expectations."},
+
+    {"category": "Sales > Voicemail Scripts > First Class Confirmation > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. Just confirming you’re all set for your first class tomorrow. Please arrive about 25 minutes early so we can get you checked in and go through a quick pre-class intro. If you have gloves and wraps, feel free to bring them — otherwise we do have rentals and wraps available at the studio. If you have any questions before class, give us a call or text."},
+
+    {"category": "Sales > Voicemail Scripts > First Timer After Free Credit Class > Context", "text": "Use this voicemail when following up with a first-time guest after they have completed their free credit class."},
+
+    {"category": "Sales > Voicemail Scripts > First Timer After Free Credit Class > Guidelines", "text": "Thank the customer for attending, ask how their experience went, learn what they want from a workout program, and explain that membership options and promotions may be available depending on their goals."},
+
+    {"category": "Sales > Voicemail Scripts > First Timer After Free Credit Class > Purpose", "text": "The purpose of this voicemail is to collect feedback, understand the customer's fitness goals, and introduce appropriate membership or promotion options based on their needs."},
+
+    {"category": "Sales > Voicemail Scripts > First Timer After Free Credit Class > Restrictions", "text": "Do not immediately assume the customer wants a membership. First understand their experience and goals before recommending options."},
+
+    {"category": "Sales > Voicemail Scripts > First Timer After Free Credit Class > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. I just wanted to thank you again for coming in and taking your first class with us. I was hoping to get your feedback on how everything went, learn a little more about your fitness goals, and see what you're looking for in a workout program. We also have a few membership options and promotions available that may be a great fit depending on your goals. Give me a call or shoot me a text when you get a chance, and I'd be happy to help."},
+
+    {"category": "Sales > Voicemail Scripts > General Rules > Context", "text": "Voicemail scripts should be selected based on the customer's current stage in the Rumble Boxing Sunnyvale customer journey. Different scripts apply to leads, first-time guests, BOGO customers, recurring members, milestones, and birthdays."},
+
+    {"category": "Sales > Voicemail Scripts > General Rules > Guidelines", "text": "Always personalize voicemail scripts by replacing placeholders with the customer's name and employee's name. Match the voicemail to the customer's actual situation before sending it. Use LoyalSnap notes, previous conversations, attendance history, bookings, and account information when available to understand the customer context."},
+
+    {"category": "Sales > Voicemail Scripts > General Rules > Purpose", "text": "The purpose of voicemail scripts is to create a personal connection, provide helpful follow-up, encourage engagement, and guide customers toward their next appropriate action. The goal is to support the customer experience rather than simply make a sale."},
+
+    {"category": "Sales > Voicemail Scripts > General Rules > Restrictions", "text": "Do not assume a customer has attended a class, purchased a membership, or understands Rumble Boxing offerings unless that information is confirmed. Do not use a script intended for one customer stage with a different customer stage."},
+
+    {"category": "Sales > Voicemail Scripts > Member Birthday > Context", "text": "Use this voicemail when contacting a member on their birthday."},
+
+    {"category": "Sales > Voicemail Scripts > Member Birthday > Guidelines", "text": "Wish the member a happy birthday, thank them for being part of the Rumble family, and let them know the studio looks forward to seeing them again."},
+
+    {"category": "Sales > Voicemail Scripts > Member Birthday > Purpose", "text": "The purpose of this voicemail is to celebrate the member, strengthen the relationship with the Rumble Boxing Sunnyvale community, and show appreciation."},
+
+    {"category": "Sales > Voicemail Scripts > Member Birthday > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. Just wanted to wish you a happy birthday and hope you're having an awesome day! Thanks for being part of our Rumble family. We look forward to seeing you back in the studio soon. Enjoy your special day!"},
+
+    {"category": "Sales > Voicemail Scripts > Member Milestone > Context", "text": "Use this voicemail when a member reaches an important class attendance milestone."},
+
+    {"category": "Sales > Voicemail Scripts > Member Milestone > Guidelines", "text": "Congratulate the member on reaching their class milestone, thank them for their effort and consistency, and encourage them to continue attending."},
+
+    {"category": "Sales > Voicemail Scripts > Member Milestone > Purpose", "text": "The purpose of this voicemail is to recognize the member's achievement, strengthen the relationship with the studio, and celebrate their fitness journey."},
+
+    {"category": "Sales > Voicemail Scripts > Member Milestone > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. I wanted to personally reach out and congratulate you on hitting your {milestone} class! That's a huge accomplishment, and we're proud to be part of your fitness journey. Thank you for showing up, putting in the work, and bringing great energy to the studio. We can't wait to see you back for the next one!"},
+
+    {"category": "Sales > Voicemail Scripts > Recurring Member Next Class Booking > Context", "text": "Use this voicemail when contacting a recurring member who has not attended Rumble Boxing Sunnyvale recently."},
+
+    {"category": "Sales > Voicemail Scripts > Recurring Member Next Class Booking > Guidelines", "text": "Acknowledge that the member has not been seen recently, ask how they are doing, and encourage them to return to the studio. Offer to help schedule their next class."},
+
+    {"category": "Sales > Voicemail Scripts > Recurring Member Next Class Booking > Purpose", "text": "The purpose of this voicemail is to reconnect with an existing member, encourage them to return, and support their ongoing fitness goals."},
+
+    {"category": "Sales > Voicemail Scripts > Recurring Member Next Class Booking > Restrictions", "text": "Do not treat recurring members like new leads. They already have a relationship with the studio and should receive a retention-focused message."},
+
+    {"category": "Sales > Voicemail Scripts > Recurring Member Next Class Booking > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. Hope you're doing well! We haven't seen you in the studio in a little while, so I wanted to personally reach out and see how everything's going. We'd love to get you back on the bags and help you stay on track with your fitness goals. Give me a call or shoot me a text when you get a chance, and let's get your next class booked. Looking forward to seeing you back in the studio soon!"},
+
+    {"category": "Sales > Voicemail Scripts > Unscheduled Lead > Context", "text": "Use this voicemail when contacting an unscheduled lead who has shown interest in Rumble Boxing Sunnyvale but has not yet booked a class. The lead may have submitted interest information, visited the website, or otherwise interacted with Rumble without starting their first class."},
+
+    {"category": "Sales > Voicemail Scripts > Unscheduled Lead > Guidelines", "text": "When following up with an unscheduled lead, ask about their goals, what they are looking for in a workout program, and why they considered Rumble. Encourage them to call or text back so the team can help them get started."},
+
+    {"category": "Sales > Voicemail Scripts > Unscheduled Lead > Purpose", "text": "The purpose of this voicemail is to create a personal connection, understand the lead's fitness goals, learn what they are looking for in a fitness program, and discover what sparked their interest in Rumble Boxing."},
+
+    {"category": "Sales > Voicemail Scripts > Unscheduled Lead > Restrictions", "text": "Do not assume the lead has attended a class, purchased a package, or is ready to buy a membership. The first goal is understanding their needs and starting a conversation."},
+
+    {"category": "Sales > Voicemail Scripts > Unscheduled Lead > Script", "text": "Hey {member_name}, this is {employee_name} from Rumble Boxing Sunnyvale. I saw you checked us out and wanted to reach out personally. I'd love to learn more about what you're looking for in a fitness program, what your goals are, and what sparked your interest in Rumble. Give me a call or shoot me a text when you get a chance, and we'll find the best way to get you started."},
+
     {"category": "Scheduling > Shifts", "text": "The Morning Shift runs Monday through Friday, from 5:30 AM until 7:30 AM."},
     {"category": "Scheduling > Shifts", "text": "The Noon Shift runs Monday through Friday, from 11:00 AM until 1:00 PM."},
     {"category": "Scheduling > Shifts", "text": "On Mondays and Wednesdays, the Evening Shift runs from 3:45 PM until 8:15 PM."},

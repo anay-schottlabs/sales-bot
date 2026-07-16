@@ -92,7 +92,7 @@ def get_current_shift(now=None):
 
 # knowledge base retrieval
 #
-# the database is a flat list of short factual strings. we embed each one
+# the database is a flat list of {category, text} entries. we embed each one
 # ahead of time, then at question-time embed the question the same way and
 # use FAISS to find the entries whose meaning is closest to it — this is
 # what lets the bot match "when do you open" against "gym hours" without
@@ -103,10 +103,20 @@ DATABASE_PATH = Path(__file__).parent / "database.json"
 with open(DATABASE_PATH) as f:
     database = json.load(f)
 
+# folding the category into the embedded text (rather than embedding database
+# directly) gives the model more context to match against — e.g. a question
+# about "pricing" can match on the category even if the word never appears in
+# the text itself. this list only exists to be embedded; database stays the
+# source of truth for what's actually returned to the caller.
+embedding_texts = [
+    f"Category: {item['category']}. Information: {item['text']}"
+    for item in database
+]
+
 encoding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
 embeddings = encoding_model.encode(
-    database,
+    embedding_texts,
     normalize_embeddings=True   # we want to compare direction, not magnitude
 )
 
@@ -151,8 +161,9 @@ def retrieve_info(question, k):
 
     return distances, indices
 
-# converts FAISS result indices (row numbers into `database`) back into the
-# actual text of those database entries
+# converts FAISS result indices (row numbers into `database`, which stays
+# aligned with embedding_texts since both are built from the same list) back
+# into the original {category, text} entries, not the embedding strings
 def indices_to_context(indices):
     context = []
 
@@ -167,7 +178,7 @@ def indices_to_context(indices):
 # context, plus today's day of week and current shift (so day/shift-relative
 # questions can be answered), plus the rules for how to answer
 def build_prompt(question, context):
-    context_text = "\n".join(context)
+    context_text = "\n".join(item["text"] for item in context)
     day_of_week = datetime.now().strftime("%A")
     current_shift = get_current_shift()
 

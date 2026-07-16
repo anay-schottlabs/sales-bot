@@ -231,14 +231,14 @@ async function sendMessage() {
                             <!-- sunrise: same full circle as the afternoon sun, but with dots instead of capsule rays -->
                             <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
                                 <circle cx="12" cy="12" r="5" />
-                                <circle cx="12" cy="2.1" r="1.6" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(45 12 12)" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(90 12 12)" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(135 12 12)" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(180 12 12)" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(225 12 12)" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(270 12 12)" />
-                                <circle cx="12" cy="2.1" r="1.6" transform="rotate(315 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(45 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(90 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(135 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(180 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(225 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(270 12 12)" />
+                                <circle cx="12" cy="2.1" r="1" transform="rotate(315 12 12)" />
                             </svg>
 
                             <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->

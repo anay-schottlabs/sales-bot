@@ -73,6 +73,7 @@ watch(otpCode, async (code) => {
             if (response.ok && result.authenticated) {
                 isAuthenticated.value = true;
                 shifts.value = result.shifts ?? [];
+                otpCode.value = "";
             } else {
                 authError.value = "Incorrect code. Try again.";
                 otpCode.value = "";

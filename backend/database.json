@@ -1,4 +1,84 @@
 [
+    {"category": "Employment > Attendance and Punctuality", "text": "Employees are expected to report to work on time and remain for their full scheduled shift, aside from meal and rest periods. If unable to work a shift, employees must give their supervisor reasonable advance notice, or notify them as soon as practical if the absence is unforeseen."},
+    {"category": "Employment > Attendance and Punctuality", "text": "Failing to show up for work with no notice to a supervisor for more than two consecutive scheduled shifts is treated as voluntary job abandonment/resignation. Absences protected by law, including California paid sick leave, do not count against this policy."},
+
+    {"category": "Employment > Benefits > Lactation Accommodation", "text": "Lactating employees are entitled to reasonable break time and a private lactation space (not a restroom) to express breast milk, with a surface for the pump, a place to sit, electrical access, and nearby access to a sink and a refrigerator or other cooling device. Contact the CEO to request lactation accommodations."},
+
+    {"category": "Employment > Company Info", "text": "MKA Fitness LLC is the legal business entity that operates Rumble Boxing Sunnyvale."},
+    {"category": "Employment > Company Info", "text": "Employment at Rumble Boxing Sunnyvale (MKA Fitness LLC) is at-will, meaning either the employee or the company may end the employment relationship at any time, with or without reason or advance notice."},
+    {"category": "Employment > Company Info", "text": "Only the CEO of MKA Fitness LLC has the authority to enter into an employment agreement outside the standard at-will terms, and only if it is in writing."},
+
+    {"category": "Employment > Complaints and Harassment", "text": "MKA Fitness LLC prohibits harassment, discrimination, and retaliation based on protected categories including race, religion, color, sex/gender, national origin, disability, age (40+), sexual orientation, military/veteran status, and other legally protected characteristics."},
+    {"category": "Employment > Complaints and Harassment", "text": "Harassment, discrimination, or retaliation complaints can be brought to a supervisor, the designated ombudsperson, the complaint hotline at 571-294-3511, company representative Ashish Chhabra, or Owner Mansi Verma. A written complaint is preferred but not required."},
+    {"category": "Employment > Complaints and Harassment", "text": "Employees who need a disability or religious accommodation should contact Owner Mansi Verma to discuss the request."},
+
+    {"category": "Employment > Customer Relations", "text": "Employees are expected to be polite, courteous, prompt, and attentive to every customer; the general manager should be called immediately if a situation feels difficult to handle."},
+    {"category": "Employment > Customer Relations", "text": "Never argue with a customer. If a customer remains dissatisfied or a problem develops, ask a supervisor or the general manager to step in."},
+
+    {"category": "Employment > Drug and Alcohol Policy", "text": "Being under the influence of, using, possessing, or distributing alcohol, marijuana, or illegal/controlled substances while on the job or on company property is strictly prohibited and can lead to termination."},
+    {"category": "Employment > Drug and Alcohol Policy", "text": "The company will not discipline employees for marijuana use off-duty and away from the workplace, as long as they are not impaired while on the job."},
+    {"category": "Employment > Drug and Alcohol Policy", "text": "Employees struggling with alcohol, marijuana, or drug dependency are encouraged to request a treatment or rehabilitation leave; the company will reasonably accommodate treatment, but is not obligated to continue employing someone whose job performance remains impaired."},
+
+    {"category": "Employment > Hiring and Status", "text": "The first 90 days of continuous employment at MKA Fitness LLC is considered an introductory period, during which a new employee's performance is closely monitored."},
+    {"category": "Employment > Hiring and Status", "text": "Part-time employees are those scheduled to work at least 20 but fewer than 40 hours per week."},
+    {"category": "Employment > Hiring and Status", "text": "Employees on a leave of absence that exceeds any protected state, federal, or local leave period are placed on inactive status."},
+
+    {"category": "Employment > Leave > Bereavement", "text": "Bereavement leave provides up to 5 days off (not required to be consecutive) for the death of a family member — defined as a spouse, domestic partner, child, parent, parent-in-law, sibling, grandparent, or grandchild. Employees must have been employed at least 30 days before the leave begins to be eligible, and the leave must be completed within 3 months of the death."},
+    {"category": "Employment > Leave > Bereavement", "text": "Bereavement leave is unpaid, though employees may use previously accrued paid leave time to cover it. Documentation (e.g. a death certificate, published obituary, or service verification) is required."},
+
+    {"category": "Employment > Leave > CFRA", "text": "The California Family Rights Act (CFRA) provides up to 12 weeks of unpaid family/medical leave in a 12-month period, for employees who have worked at least 12 months (within the last 7 years) and at least 1,250 hours in the prior 12 months."},
+    {"category": "Employment > Leave > CFRA", "text": "CFRA leave can be used for the employee's own serious health condition, to care for a family member's serious health condition, for the birth or placement of a child, or for a qualifying military-family exigency. MKA Fitness LLC calculates the 12-month CFRA period using the calendar year."},
+    {"category": "Employment > Leave > CFRA", "text": "Employees should contact the CEO as soon as they know they'll need CFRA leave — at least 30 days in advance if the need is foreseeable, such as a planned birth or medical treatment."},
+
+    {"category": "Employment > Leave > Organ and Bone Marrow Donation", "text": "Employees who have worked at least 90 days may take up to 30 business days of paid leave (plus up to 30 additional business days of unpaid leave) per year to donate an organ, or up to 5 business days per year to donate bone marrow. The company continues group health plan coverage during this leave."},
+
+    {"category": "Employment > Leave > Pregnancy Disability", "text": "Employees disabled by pregnancy, childbirth, or a related medical condition may take up to 4 months of pregnancy disability leave (PDL) per pregnancy, as determined by their health care provider; part-time employees receive this on a pro-rated basis."},
+    {"category": "Employment > Leave > Pregnancy Disability", "text": "PDL can be taken intermittently, in increments as small as 15 minutes, and does not need to be continuous. Employees planning PDL should contact the CEO, and must give at least 30 days' notice if the need is foreseeable."},
+
+    {"category": "Employment > Leave > Reproductive Loss", "text": "Reproductive loss leave provides up to 5 days off for a qualifying reproductive loss event (failed adoption, failed surrogacy, miscarriage, stillbirth, or an unsuccessful assisted reproduction procedure). Employees must have been employed at least 30 days before the leave begins to be eligible."},
+    {"category": "Employment > Leave > Reproductive Loss", "text": "Reproductive loss leave is unpaid, though accrued paid leave may be used. Employees are limited to 20 total days of reproductive loss leave in a 12-month period, even if more than one qualifying event occurs."},
+
+    {"category": "Employment > Meal and Rest Breaks", "text": "Nonexempt employees get one paid 10-minute rest break for every 4 hours worked (or major fraction thereof): 1 break for shifts of 3.5-6 hours, 2 breaks for shifts over 6 and up to 10 hours, and 3 breaks for shifts over 10 and up to 14 hours. Rest breaks aren't required for shifts under 3.5 hours."},
+    {"category": "Employment > Meal and Rest Breaks", "text": "Nonexempt employees working more than 5 hours in a day get an unpaid, uninterrupted 30-minute meal period, which must start before the end of the 5th hour of work (employees must clock out for it). If the workday is 5-6 hours total, the meal period may be waived by mutual written agreement with a supervisor."},
+    {"category": "Employment > Meal and Rest Breaks", "text": "Employees working more than 10 hours in a day get a second unpaid 30-minute meal period, which must start before the end of the 10th hour of work. It may be waivable (with mutual written agreement) if the first meal period was taken and total hours worked don't exceed 12."},
+
+    {"category": "Employment > Overtime", "text": "For nonexempt employees, hours worked beyond 8 in a workday or 40 in a workweek are paid at 1.5x the regular rate, as are the first 8 hours worked on a 7th consecutive workday. Hours beyond 12 in a workday, or beyond 8 on a 7th consecutive workday, are paid at 2x the regular rate. All overtime must be authorized in advance by a supervisor."},
+    {"category": "Employment > Overtime", "text": "The workday runs from 12:01 a.m. to midnight; the workweek begins each Sunday at 12:01 a.m."},
+
+    {"category": "Employment > Performance Reviews", "text": "An employee's first performance evaluation takes place after completing one month of employment. Subsequent performance evaluations are conducted every 3 months."},
+    {"category": "Employment > Performance Reviews", "text": "Favorable performance evaluations do not guarantee a raise or promotion — those decisions are solely at the company's discretion."},
+
+    {"category": "Employment > Records", "text": "Employees have the right to inspect or receive a copy of their personnel file; written requests go to the CEO, and the records must be made available within 30 calendar days (up to 35 by mutual written agreement)."},
+    {"category": "Employment > Records", "text": "Employees have the right to inspect or receive a copy of their payroll records; requests (oral or written) go to the CEO, and records must be provided within 21 calendar days."},
+
+    {"category": "Employment > Recruitment Bonus", "text": "Employees who refer a candidate who gets hired can earn a $500 total recruitment bonus, paid in stages: $100 after the new hire completes 1 month of service, $200 after 6 months, and $200 after 1 year. The referral must be documented as the referral source on the applicant's original employment application. If more than one employee referred the same applicant, the bonus is split evenly among them."},
+
+    {"category": "Employment > Safety", "text": "All work-related injuries or illnesses must be reported to a supervisor immediately. MKA Fitness LLC maintains an Injury and Illness Prevention Program, available for review in the general manager's office."},
+    {"category": "Employment > Safety", "text": "MKA Fitness LLC and its insurer will not cover workers' compensation for injuries from voluntary off-duty recreational, social, or athletic activities that aren't part of an employee's job duties."},
+
+    {"category": "Employment > Technology and Devices", "text": "Company computers, email, electronic communications, and company cell phones are subject to monitoring and review at any time; employees have no expectation of privacy in their use, even for information marked 'private' or password-protected."},
+    {"category": "Employment > Technology and Devices", "text": "The company's CRM system may only be used to reach out to leads/prospects for business purposes — no other outreach is permitted."},
+    {"category": "Employment > Technology and Devices", "text": "Personal cell phones and other personal electronic devices should not be used during work time, except in a genuine emergency; they may be used during breaks and meal periods."},
+    {"category": "Employment > Technology and Devices", "text": "Audio or video recording is prohibited in areas where employees expect privacy, such as restrooms, locker rooms, changing rooms, and lactation rooms, as well as in company meeting rooms and server rooms. Recording private conversations without the consent of all parties is also prohibited."},
+    {"category": "Employment > Technology and Devices", "text": "Personal social media use is prohibited during work time (the company filters social media access on its network), but is allowed during breaks and meal periods on personal devices."},
+
+    {"category": "Employment > Termination", "text": "Reference requests for current or former employees must go through the personnel manager; only the dates of employment and last job title are disclosed."},
+    {"category": "Employment > Termination", "text": "Voluntary resignation occurs if an employee quits or fails to report to work for 3 consecutive scheduled workdays without notifying their supervisor, absent a legally protected reason."},
+    {"category": "Employment > Termination", "text": "Employees who resign with at least 72 hours' notice receive their final pay on their last day worked; those who resign with less notice receive final pay within 72 hours of resigning. Employees who are involuntarily terminated receive final pay on their last day. All company property must be returned at that time."},
+
+    {"category": "Employment > Wages and Pay", "text": "MKA Fitness LLC does not permit pay advances against a paycheck or against unaccrued vacation."},
+    {"category": "Employment > Wages and Pay", "text": "Work-related expenses (travel, lodging, meals, required tools/equipment) are reimbursable with supervisor pre-approval; reimbursement requests, with receipts, must be submitted the same day the expense is incurred."},
+    {"category": "Employment > Wages and Pay", "text": "If you believe an improper deduction was made from an exempt employee's salary, report it immediately to your supervisor or the Operations Manager; confirmed improper deductions are promptly reimbursed."},
+
+    {"category": "Employment > Workplace Conduct", "text": "Employees may not accept gifts or gratuities from customers, vendors, or suppliers, as doing so could appear to influence business decisions."},
+    {"category": "Employment > Workplace Conduct", "text": "Employees may not conduct personal business or work for another employer during their scheduled working hours at Rumble Boxing Sunnyvale."},
+    {"category": "Employment > Workplace Conduct", "text": "Personal or romantic relationships that could impair judgment on the company's behalf (e.g. with a supervisor, subordinate, competitor, or supplier) must be disclosed to a supervisor so the company can assess whether an actual conflict of interest exists."},
+    {"category": "Employment > Workplace Conduct", "text": "Confidential company information (financial data, business strategy, supplier/customer details, and anything related to Rumble that shouldn't be shared outside the company) may only be accessed or disclosed on a need-to-know basis, authorized by a supervisor."},
+
+    {"category": "Employment > Workplace Violence Prevention", "text": "MKA Fitness LLC has zero tolerance for workplace violence or threats of violence, including from third parties, even if made in apparent jest. Non-work-related weapons (guns, knives, explosives, or similar) are prohibited at the worksite and company events."},
+    {"category": "Employment > Workplace Violence Prevention", "text": "Workplace violence concerns or incidents can be reported to a supervisor, manager, or human resources, or via the workplace violence reporting form."},
+    {"category": "Employment > Workplace Violence Prevention", "text": "MKA Fitness LLC provides a confidential employee assistance program (EAP) to help with personal or work-related problems; contact the Operations Manager or CEO/President for more information."},
+
     {"category": "Goals > Calls", "text": "On Mondays, Tuesdays, Wednesdays, and Thursdays, the daily goal is to make 50 outbound calls."},
     {"category": "Goals > Calls", "text": "On Fridays, Saturdays, and Sundays, the daily goal is to make 40 outbound calls."},
 

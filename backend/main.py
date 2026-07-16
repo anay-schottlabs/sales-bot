@@ -1,12 +1,16 @@
 import json
+import os
 import time
 from pathlib import Path
 from threading import Lock
 
+from dotenv import load_dotenv
 from flask import Flask, request
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+
+load_dotenv()
 
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -30,7 +34,7 @@ with open(DATABASE_PATH) as f:
 
 # authentication
 
-AUTH_CODE = 241180
+AUTH_CODE = os.environ["AUTH_CODE"]
 AUTH_DURATION_SECONDS = 5 * 60
 
 # maps IP address -> time (epoch seconds) the authentication expires
@@ -178,7 +182,7 @@ def authenticate():
     if not (code.isdigit() and len(code) == 6):
         return "Invalid code."
 
-    if int(code) != AUTH_CODE:
+    if code != AUTH_CODE:
         return "Invalid code."
 
     with authenticated_ips_lock:

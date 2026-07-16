@@ -119,14 +119,16 @@ def build_prompt(question, context):
     day_of_week = datetime.now().strftime("%A")
 
     prompt = (
-        "Answer the question using ONLY the information below. Provide exactly one "
-        "complete, elaborated answer that explains your reasoning rather than simply responding 'yes' or 'no'. "
+        "Answer the question using ONLY the information below, in a warm, friendly, "
+        "conversational tone — like a helpful teammate chatting with someone, not a formal manual. "
+        "Provide exactly one complete, elaborated answer that explains your reasoning rather than simply "
+        "responding 'yes' or 'no'. "
         "Do not add extra questions, extra answers, or unrelated text beyond your one thorough answer.\n"
         "If none of the information below answers the question, only respond with the exact phrase "
-        "\"I don't have that information.\" If the information below does "
-        "answer the question, answer it directly and do not say that phrase.\n"
+        "\"I don't have that one handy, sorry! Is there something else I can help with?\" If the information "
+        "below does answer the question, answer it directly and do not say that phrase.\n"
         "Whenever possible and reasonable, answer the question to the best of your ability.\n"
-        "If the answer depends on the day of the week, use the fact that today is {day_of_week} in your answer, "
+        f"If the answer depends on the day of the week, use the fact that today is {day_of_week} in your answer, "
         "and explain any details that change based on the day.\n\n"
         f"Information:\n{context_text}\n\n"
         f"Question:\n{question}"
@@ -144,8 +146,9 @@ llm = AutoModelForCausalLM.from_pretrained(
 )
 
 SYSTEM_PROMPT = (
-    "You are a helpful assistant for a fitness company, answering staff and "
-    "customer questions about sales, memberships, and shift/operational procedures."
+    "You are a friendly, approachable assistant for a fitness company, chatting with staff and "
+    "customers about sales, memberships, and shift/operational procedures. Sound warm and human, "
+    "like a helpful teammate — not stiff or robotic."
 )
 
 # a function to generate a response with the model
@@ -204,7 +207,7 @@ def authenticate():
 @limiter.limit("5 per minute")
 def answer_question():
     if not is_authenticated(request.remote_addr):
-        return "The password was bypassed, you can't send messages without authenticating first.", 401
+        return "Looks like your session's expired — pop in your code again and I'll be right here.", 401
 
     question = request.args.get("question")
 
@@ -225,7 +228,7 @@ def answer_question():
     # if no indices met the threshold
     # the request doesn't match what is known in the database
     if len(filtered_indices) == 0:
-        return "NO CONTEXT MEETS THRESHOLD"
+        return "Hmm, I'm not confident I've got a good answer for that one — mind rephrasing, or asking me something else?"
 
     # compare indices with database to get actual text
     context = indices_to_context(filtered_indices)

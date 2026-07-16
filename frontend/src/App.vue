@@ -15,7 +15,7 @@ class Message {
 
 const messages = ref([
     new Message(
-        "How can I help?",
+        "Hey there! What can I help you with today?",
         Sender.BOT
     )
 ]);

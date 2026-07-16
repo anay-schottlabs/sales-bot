@@ -104,8 +104,6 @@ const greeting = computed(() => {
     return "Good evening.";
 });
 
-const NO_SHIFT_LABEL = "No Shift";
-
 // mirrors get_current_shift() in main.py: matches today's day name and
 // time-of-day against the shift schedule fetched from /authenticate
 const currentDayAndShift = computed(() => {
@@ -124,7 +122,9 @@ const currentDayAndShift = computed(() => {
         currentMinutes <= toMinutes(shift.end)
     ));
 
-    return `${dayName} — ${matchingShift ? matchingShift.label : NO_SHIFT_LABEL}`;
+    return matchingShift
+        ? `It's ${dayName}, and the ${matchingShift.label} is underway.`
+        : `It's ${dayName} — no shift right now.`;
 });
 
 const REQUEST_URL = "http://127.0.0.1:5050/ask?question=";

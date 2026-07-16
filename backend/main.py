@@ -405,7 +405,7 @@ def answer_question():
         # this IP's recent back-and-forth, threaded into the prompt below
         history = get_history(ip)
 
-        yield format_sse("status", "Searching the knowledge base…")
+        yield format_sse("status", "Searching the knowledge base")
 
         # have FAISS collect the top k matching data chunks to the question
         distances, indices = retrieve_info(question, K, time_context)
@@ -433,12 +433,12 @@ def answer_question():
         # compare indices with database to get actual text
         context = indices_to_context(filtered_indices)
 
-        yield format_sse("status", "Building the prompt…")
+        yield format_sse("status", "Building the prompt")
 
         # use the context to collect a prompt
         prompt = build_prompt(question, context, time_context, history)
 
-        yield format_sse("status", "Generating a response…")
+        yield format_sse("status", "Generating a response")
 
         # use the prompt to generate a response
         response = generate_response(prompt)

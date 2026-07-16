@@ -97,10 +97,16 @@ watch(
     }
 );
 
-const greeting = computed(() => {
+const timeOfDay = computed(() => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning.";
-    if (hour < 18) return "Good afternoon.";
+    if (hour < 12) return "morning";
+    if (hour < 18) return "afternoon";
+    return "evening";
+});
+
+const greeting = computed(() => {
+    if (timeOfDay.value === "morning") return "Good morning.";
+    if (timeOfDay.value === "afternoon") return "Good afternoon.";
     return "Good evening.";
 });
 
@@ -220,7 +226,43 @@ async function sendMessage() {
             <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">
                 <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
                     <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
-                        <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
+                        <!-- TEMP: all three side by side with no cycling logic, just to compare them -->
+                        <div class="flex items-center justify-center gap-4">
+                            <!-- sunrise: dome resting on the horizon -->
+                            <svg
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="h-11 w-11 shrink-0 text-base-content"
+                            >
+                                <path d="M5 17a7 7 0 0 1 14 0" />
+                                <path d="M12 4v3" />
+                                <path d="M3 21h18" />
+                            </svg>
+
+                            <!-- full sun, high overhead -->
+                            <svg
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="h-11 w-11 shrink-0 text-base-content"
+                            >
+                                <circle cx="12" cy="12" r="4" />
+                                <path d="M12 3v2" />
+                                <path d="M12 19v2" />
+                                <path d="M3 12h2" />
+                                <path d="M19 12h2" />
+                            </svg>
+
+                            <!-- crescent moon -->
+                            <svg viewBox="0 0 24 24" class="h-11 w-11 shrink-0 text-base-content">
+                                <mask id="moon-mask">
+                                    <rect x="0" y="0" width="24" height="24" fill="white" />
+                                    <circle cx="15" cy="9" r="7" fill="black" />
+                                </mask>
+                                <circle cx="12" cy="12" r="9" fill="currentColor" mask="url(#moon-mask)" />
+                            </svg>
+                        </div>
+
+                        <p class="mt-3 text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
                         <p class="mt-2 text-sm text-base-content/60">{{ currentDayAndShift }}</p>
                     </div>
                 </div>

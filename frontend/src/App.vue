@@ -228,34 +228,26 @@ async function sendMessage() {
                     <div class="inline-block rounded-3xl border border-base-content/10 bg-base-200/50 backdrop-blur-xl px-8 py-5 shadow-lg shadow-black/20">
                         <!-- TEMP: all three side by side with no cycling logic, just to compare them -->
                         <div class="flex items-center justify-center gap-4">
-                            <!-- sunrise: dome resting on the horizon -->
-                            <svg
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"
-                                class="h-11 w-11 shrink-0 text-base-content"
-                            >
-                                <path d="M5 17a7 7 0 0 1 14 0" />
-                                <path d="M12 4v3" />
-                                <path d="M19.1 9.9 21.2 7.8" />
-                                <path d="M4.9 9.9 2.8 7.8" />
-                                <path d="M3 21h18" />
+                            <!-- sunrise: filled dome + horizon bar + capsule rays rotated around the dome center -->
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
+                                <path d="M5 17a7 7 0 0 1 14 0Z" />
+                                <rect x="4" y="19.5" width="16" height="1.6" rx="0.8" />
+                                <rect x="11.1" y="5.5" width="1.8" height="4" rx="0.9" />
+                                <rect x="11.1" y="5.5" width="1.8" height="4" rx="0.9" transform="rotate(45 12 17)" />
+                                <rect x="11.1" y="5.5" width="1.8" height="4" rx="0.9" transform="rotate(-45 12 17)" />
                             </svg>
 
-                            <!-- full sun, high overhead -->
-                            <svg
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"
-                                class="h-11 w-11 shrink-0 text-base-content"
-                            >
-                                <circle cx="12" cy="12" r="4" />
-                                <path d="M12 3v2" />
-                                <path d="M12 19v2" />
-                                <path d="M3 12h2" />
-                                <path d="M19 12h2" />
-                                <path d="M16.9 7.1 18.4 5.6" />
-                                <path d="M16.9 16.9 18.4 18.4" />
-                                <path d="M7.1 16.9 5.6 18.4" />
-                                <path d="M7.1 7.1 5.6 5.6" />
+                            <!-- full sun: filled circle + the same capsule rays, rotated around the sun center -->
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="h-11 w-11 shrink-0 text-base-content">
+                                <circle cx="12" cy="12" r="4.2" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(45 12 12)" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(90 12 12)" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(135 12 12)" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(180 12 12)" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(225 12 12)" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(270 12 12)" />
+                                <rect x="11.1" y="4.3" width="1.8" height="3.2" rx="0.9" transform="rotate(315 12 12)" />
                             </svg>
 
                             <!-- crescent moon -->

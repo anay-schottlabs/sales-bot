@@ -34,7 +34,7 @@ limiter = Limiter(
 # authentication
 
 AUTH_CODE = os.environ["AUTH_CODE"]
-AUTH_DURATION_SECONDS = 5 * 60
+AUTH_DURATION_SECONDS = 1 * 60 * 60 # 1 hour long
 
 # maps IP address -> time (epoch seconds) the authentication expires
 authenticated_ips = {}

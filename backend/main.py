@@ -5,6 +5,19 @@ from datetime import datetime
 from pathlib import Path
 from threading import Lock
 
+# faiss, torch, and scikit-learn (a sentence-transformers dependency) each
+# bundle their own separate copy of the OpenMP runtime (libomp.dylib) in
+# their macOS pip wheels. With more than one loaded in the same process,
+# OpenMP's thread-pool setup segfaults (SIGSEGV inside libomp) while the
+# model's checkpoint shards are loading — confirmed by forcing a single
+# OpenMP thread, which reliably avoids it. KMP_DUPLICATE_LIB_OK is kept too
+# since the underlying multiple-libomp situation is real, but
+# OMP_NUM_THREADS=1 is the one that actually stops the crash. Both must be
+# set before any of those libraries are imported, so this comes before the
+# imports below rather than living next to load_dotenv().
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
+
 import faiss
 import numpy as np
 import torch
@@ -74,20 +87,31 @@ SHIFTS = [
 
 # figures out which shift (if any) covers the given moment, by day and time-of-day
 def get_current_shift(now=None):
+    # If no time is provided, use the current datetime
     now = now or datetime.now()
+
+    # Get the day of the week as a string, e.g. "Monday"
     day_name = now.strftime("%A")
+    # Get the current time as a time object (hour, minute, second)
     current_time = now.time()
 
+    # Loop through each shift defined in SHIFTS
     for shift in SHIFTS:
+        # Only consider shifts that are scheduled for today (match day name)
         if day_name not in shift["days"]:
             continue
 
+        # Parse the start and end times from strings ("HH:MM") to time objects
+        # Example: "05:30" -> datetime.strptime("05:30", "%H:%M").time()
         start = datetime.strptime(shift["start"], "%H:%M").time()
         end = datetime.strptime(shift["end"], "%H:%M").time()
 
+        # Check if the current_time falls within the shift's start and end time, inclusive
         if start <= current_time <= end:
+            # Return the label (name) of the current shift if we're within this shift's time window
             return shift["label"]
 
+    # If no shifts cover the current time, return the NO_SHIFT_LABEL
     return NO_SHIFT_LABEL
 
 # knowledge base retrieval

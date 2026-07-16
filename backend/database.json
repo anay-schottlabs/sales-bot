@@ -89,6 +89,22 @@
     {"category": "LoyalSnap > Inbox", "text": "During class, work in LoyalSnap whenever possible."},
     {"category": "LoyalSnap > Inbox", "text": "During class, regularly check the LoyalSnap inbox and respond to messages as soon as possible."},
 
+    {"category": "Member Retention > Appreciation and Milestones", "text": "Member milestones are tracked by rowing distance, including 50,000 meters, 250,000 meters, and 1,000,000 meters, as well as consistent attendance."},
+    {"category": "Member Retention > Appreciation and Milestones", "text": "Recognizing member milestones makes members feel seen and valued and keeps them motivated to keep coming back."},
+    {"category": "Member Retention > Appreciation and Milestones", "text": "Community events like member mixers help members build friendships and experience the studio as a community."},
+    {"category": "Member Retention > Appreciation and Milestones", "text": "Members who build friendships at the studio and experience it as a community stay longer, visit more often, and bring others with them."},
+
+    {"category": "Member Retention > Attrition and Cancellations", "text": "A cancellation is more than lost revenue — it's a signal of a mismatch between what the member needs and what the studio is delivering."},
+    {"category": "Member Retention > Attrition and Cancellations", "text": "Cancellation reasons should be reviewed to find whether the underlying issue is usage, scheduling, coaching, product fit, or satisfaction."},
+    {"category": "Member Retention > Attrition and Cancellations", "text": "Saving even a small percentage of at-risk members can meaningfully change a studio's monthly performance."},
+    {"category": "Member Retention > Attrition and Cancellations", "text": "Treat a cancellation request as a chance to listen and solve the member's problem, not just a request to process."},
+
+    {"category": "Member Retention > Onboarding", "text": "The first 30 days determine whether a new member becomes a long-term client or quietly drifts away."},
+    {"category": "Member Retention > Onboarding", "text": "New member onboarding should make the member feel welcomed and confident, build routine, and create early wins."},
+    {"category": "Member Retention > Onboarding", "text": "New member onboarding includes learning the member's goals, guiding their class selection, and helping them book their next session."},
+    {"category": "Member Retention > Onboarding", "text": "Celebrating a new member's early progress builds personal connection and reinforces the value of their membership."},
+    {"category": "Member Retention > Onboarding", "text": "The Coach Card is used to track a member's goals and progress starting during onboarding."},
+
     {"category": "Operations > Climate", "text": "The gym has two thermostats: one on the left side and one on the right side."},
     {"category": "Operations > Climate", "text": "At the end of the day, set both gym thermostats to 85°F or higher to prevent the fans from running overnight."},
 
@@ -148,9 +164,41 @@
     {"category": "Operations > Shift Recap", "text": "The Slack shift recap should include sales results, member updates, completed operational tasks, cleaning status, and notes for the next shift."},
     {"category": "Operations > Shift Recap", "text": "Do not leave the 'Notes for the Next Shift' section blank. Include any member concerns, incomplete tasks, or action items."},
 
+    {"category": "Operations > Shift Tools", "text": "A studio succeeds because the small things happen the same way every day, no matter who's on the schedule, not because of one big change."},
+    {"category": "Operations > Shift Tools", "text": "The Daily Lobby Walkthrough Checklist, GM Time Guide, and General Manager Report Checklist are the core tools for running a consistent shift."},
+
+    {"category": "Sales > Bookings", "text": "Leads alone don't drive revenue — booked appointments do."},
+    {"category": "Sales > Bookings", "text": "Most studios lose momentum at the booking stage because of uncontacted leads and inconsistent follow-up."},
+    {"category": "Sales > Bookings", "text": "Raising the booking rate also raises show rate and membership conversions automatically, without needing more leads, marketing spend, or discounts."},
+    {"category": "Sales > Bookings", "text": "If a studio is missing its goals, the fastest fix is usually converting existing leads into booked appointments rather than generating more leads."},
+    {"category": "Sales > Bookings", "text": "Audit the ClubReady Bookings Day List regularly to make sure leads are being booked."},
+    {"category": "Sales > Bookings", "text": "Lead types can be pulled in ClubReady to help fill classes that need more attendees."},
+
     {"category": "Sales > Calls", "text": "When a New Lead does not answer the phone, leave a voicemail, record the missed call in LoyalSnap, summarize the voicemail in the notes, and send a follow-up text message."},
     {"category": "Sales > Calls", "text": "When a prospect answers the phone, record the conversation in LoyalSnap using the OMG format: Objections, Membership Interest, and Goals."},
     {"category": "Sales > Calls", "text": "OMG stands for Objections, Membership Interest, and Goals."},
+
+    {"category": "Sales > Conversion", "text": "The first-visit-to-membership conversion is the moment revenue becomes real for a new lead."},
+    {"category": "Sales > Conversion", "text": "High-converting studios rely on a repeatable sales process rather than discounts or pressure tactics."},
+    {"category": "Sales > Conversion", "text": "Most conversion problems aren't about price — they're about confidence, clarity, and preparation."},
+    {"category": "Sales > Conversion", "text": "Audit the ClubReady Day List regularly to catch missed sales opportunities."},
+    {"category": "Sales > Conversion", "text": "Filter ClubReady by lead type to build a list of prospects to follow up with."},
+    {"category": "Sales > Conversion", "text": "Use the HOT and Required Response flags in ClubReady Connect to prioritize follow-up with prospects."},
+    {"category": "Sales > Conversion", "text": "Text campaigns, email blasts, and Digital Stack campaigns can all be sent from ClubReady to follow up with prospects before they walk in."},
+
+    {"category": "Sales > Lead Generation", "text": "A steady flow of new leads is the foundation of studio revenue — bookings, shows, new member sales, referrals, and revenue all depend on it."},
+    {"category": "Sales > Lead Generation", "text": "The studio should generate leads proactively every week rather than waiting for leads to come in on their own."},
+    {"category": "Sales > Lead Generation", "text": "Low lead flow pushes the team into reactive mode: heavy discounting, cold outreach, and end-of-month panic."},
+    {"category": "Sales > Lead Generation", "text": "Healthy lead flow makes sales, staffing, and retention easier across the board."},
+    {"category": "Sales > Lead Generation", "text": "Certified Agency Partners (CAP) are the studio's approved digital marketing vendors for lead generation."},
+    {"category": "Sales > Lead Generation", "text": "Franchise Focused Marketing, ClubBuzz, and Franchise Ramp are Certified Agency Partners for digital lead generation."},
+    {"category": "Sales > Lead Generation", "text": "A discounted health & wellness business membership can be used as a low-cost email lead generator, run monthly or quarterly by the Owner, General Manager, or Studio Lead."},
+    {"category": "Sales > Lead Generation", "text": "Front desk staff should prospect on the ground with an editable prospecting card during down time on shift."},
+    {"category": "Sales > Lead Generation", "text": "Fishbowls or lead boxes placed in the studio are a low-cost, passive lead generation tool run by front desk staff during down time."},
+    {"category": "Sales > Lead Generation", "text": "Direct mailers, typically printed at 11 inches by 6 inches, are a lead generation channel the studio can use."},
+    {"category": "Sales > Lead Generation", "text": "Grassroots lead generation includes B2B partnerships, community events, and corporate partnerships."},
+    {"category": "Sales > Lead Generation", "text": "Referral types, landing pages, and QR codes can be built in ClubReady to support grassroots lead generation campaigns."},
+    {"category": "Sales > Lead Generation", "text": "To turn an existing web link, like a ClubReady direct-purchase package or the studio's website, into a QR code, use a QR generator site such as qrcode-monkey.com."},
 
     {"category": "Sales > Memberships", "text": "Memberships automatically renew every month until they are cancelled."},
     {"category": "Sales > Memberships", "text": "When purchasing a new membership, members may choose to pay a $99 enrollment fee to receive a new pair of gloves and a new pair of hand wraps."},
@@ -243,6 +291,31 @@
     {"category": "Sales > Promotions", "text": "During the July 2026 promotion, customers who purchase the 10-class package in person receive 14 total classes for $339."},
     {"category": "Sales > Promotions", "text": "The July 2026 promotion adds 4 bonus classes to the 10-class package at no additional cost."},
 
+    {"category": "Sales > Quick Win Revenue", "text": "Quick win revenue is money already inside the studio's system that just hasn't been claimed yet."},
+    {"category": "Sales > Quick Win Revenue", "text": "Quick win revenue sources include expired packs, inactive members, past dues, low-usage members, missed follow-ups, and unclosed leads."},
+    {"category": "Sales > Quick Win Revenue", "text": "Quick win revenue converts fast, takes little effort, and carries no extra cost since it's 100% margin."},
+    {"category": "Sales > Quick Win Revenue", "text": "The Re-Sign Soon report identifies members whose membership is about to expire so they can be re-signed quickly."},
+    {"category": "Sales > Quick Win Revenue", "text": "The 4x-per-month membership upsell targets members who are using their membership often enough to justify a higher tier."},
+    {"category": "Sales > Quick Win Revenue", "text": "A renewal rate audit and the Declined Charges report, filtered by card on file, are used to recover quick win revenue from lapsed or failed payments."},
+
+    {"category": "Sales > Referrals", "text": "Referrals are the highest-converting, lowest-cost lead source available to a studio."},
+    {"category": "Sales > Referrals", "text": "Referred members convert faster, stay longer, and need less selling because trust already exists before they walk in."},
+    {"category": "Sales > Referrals", "text": "The 4 referral pillars are Always Ask, Referral Contests, Referral Programs (Evergreen), and Mobile App Referral."},
+    {"category": "Sales > Referrals", "text": "Always ask every member for a referral rather than waiting for referrals to happen on their own."},
+    {"category": "Sales > Referrals", "text": "Members with expired packs or missed sales can still be asked for referrals even if they haven't purchased."},
+    {"category": "Sales > Referrals", "text": "Email and text campaigns can be sent to prospects specifically to ask for referrals."},
+
+    {"category": "Sales > Revenue Tracking", "text": "The Monthly Sales Planner breaks the studio's monthly revenue target into daily, role-based tasks focused on leads, bookings, show rate, and conversions."},
+    {"category": "Sales > Revenue Tracking", "text": "Daily revenue gap tracking lets the team catch and close performance gaps throughout the month instead of only discovering shortfalls at month-end."},
+    {"category": "Sales > Revenue Tracking", "text": "The General Manager completes the Monthly Sales Planner; the Owner reviews it."},
+    {"category": "Sales > Revenue Tracking", "text": "The Monthly Sales Planner is filled out on the first business day of the month, then updated daily."},
+
+    {"category": "Sales > Show Rate", "text": "A booked appointment isn't revenue until the person actually shows up — no-shows are the biggest revenue leak in a studio."},
+    {"category": "Sales > Show Rate", "text": "Improving show rate grows revenue without needing more leads, advertising, or discounts."},
+    {"category": "Sales > Show Rate", "text": "Confirmation messages before a first visit should communicate confidence, relevance, urgency, and personalization."},
+    {"category": "Sales > Show Rate", "text": "ClubReady's First Visits: Past Bookings report flags missed sales opportunities from people who didn't show."},
+    {"category": "Sales > Show Rate", "text": "ClubReady's First Visits: Future Bookings report audits the pipeline of upcoming first-time visitors so they can be confirmed."},
+
     {"category": "Sales > Voicemail Scripts > BOGO Next Class Booking > Context", "text": "Use this voicemail when following up with a customer who attended a BOGO promotional class and needs encouragement to schedule their next class."},
 
     {"category": "Sales > Voicemail Scripts > BOGO Next Class Booking > Guidelines", "text": "Mention that the customer did well in their previous session and offer assistance booking their next class. Encourage a simple call or text response."},
@@ -326,6 +399,15 @@
     {"category": "Software > ClubReady", "text": "Use ClubReady to review a member's attendance history."},
     {"category": "Software > ClubReady", "text": "ClubReady helps determine whether a member regularly uses all of their available class credits."},
     {"category": "Software > ClubReady", "text": "Members who consistently use all of their credits before renewal may be good candidates for a membership upgrade."},
+    {"category": "Software > ClubReady", "text": "ClubReady's Leads Added report tracks how many new leads the studio is generating."},
+    {"category": "Software > ClubReady", "text": "ClubReady's Bookings Day List shows scheduled appointments so staff can audit them and follow up."},
+    {"category": "Software > ClubReady", "text": "ClubReady's New Members report shows every member who joined."},
+    {"category": "Software > ClubReady", "text": "ClubReady's Agreement Log shows new members, packs, upsells, and downsells."},
+    {"category": "Software > ClubReady", "text": "ClubReady's Gross Sales report and Invoices Coming Due report are used for daily revenue tracking."},
+    {"category": "Software > ClubReady", "text": "ClubReady's Lost Members report and Cancellation Reasons report are used to track and analyze attrition."},
+    {"category": "Software > ClubReady", "text": "ClubReady's Declined Charges report can be filtered by card on file to find failed payments to recover."},
+    {"category": "Software > ClubReady", "text": "ClubReady Connect can flag prospects as HOT or Required Response to prioritize follow-up."},
+    {"category": "Software > ClubReady", "text": "Referral types, landing pages, and QR codes can all be created and managed inside ClubReady."},
 
     {"category": "Software > LoyalSnap", "text": "Review LoyalSnap notes before speaking with a sales prospect."},
     {"category": "Software > LoyalSnap", "text": "LoyalSnap stores notes from previous conversations with members."},

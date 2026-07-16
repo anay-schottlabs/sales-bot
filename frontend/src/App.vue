@@ -41,7 +41,7 @@ onMounted(async () => {
         isAuthenticated.value = response.ok && result.authenticated;
 
         if (isAuthenticated.value) {
-            shifts.value = result.shifts;
+            shifts.value = result.shifts ?? [];
         }
     } catch {
         isAuthenticated.value = false;
@@ -72,7 +72,7 @@ watch(otpCode, async (code) => {
 
             if (response.ok && result.authenticated) {
                 isAuthenticated.value = true;
-                shifts.value = result.shifts;
+                shifts.value = result.shifts ?? [];
             } else {
                 authError.value = "Incorrect code. Try again.";
                 otpCode.value = "";

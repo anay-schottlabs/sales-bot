@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from datetime import datetime
 from pathlib import Path
 from threading import Lock
 
@@ -112,6 +113,7 @@ def indices_to_context(indices):
 # a function to compile everything into a single prompt
 def build_prompt(question, context):
     context_text = "\n".join(context)
+    day_of_week = datetime.now().strftime("%A")
 
     prompt = (
         "Answer the question using ONLY the information below. Provide exactly one "
@@ -121,6 +123,7 @@ def build_prompt(question, context):
         "of the information below answers the question. If the information below does "
         "answer the question, answer it directly and do not say that phrase.\n"
         "Whenever possible and reasonable, answer the question to the best of your ability.\n\n"
+        f"Today is {day_of_week}.\n\n"
         f"Information:\n{context_text}\n\n"
         f"Question:\n{question}"
     )

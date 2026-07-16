@@ -80,5 +80,16 @@
     "The regular price of the 10-class package is $339.",
     "The regular price of the 20-class package is $639.",
     "During the July 2026 promotion, customers who purchase the 10-class package in person receive 14 total classes for $339.",
-    "The July 2026 promotion adds 4 bonus classes to the 10-class package at no additional cost."
+    "The July 2026 promotion adds 4 bonus classes to the 10-class package at no additional cost.",
+
+    "If the user asks you about the timing of their shift, or which shift they are currently on, refer to previous context in the prompt to find it.",
+
+    "The Morning Shift runs Monday through Friday, from 5:30 AM until 7:30 AM.",
+    "The Noon Shift runs Monday through Friday, from 11:00 AM until 1:00 PM.",
+    "On Mondays and Wednesdays, the Evening Shift runs from 3:45 PM until 8:15 PM.",
+    "On Tuesdays and Thursdays, the Evening Shift runs from 5:00 PM until 8:15 PM.",
+    "On Fridays, the Evening Shift runs from 5:00 PM until 7:15 PM.",
+    "On Saturdays, the All Day Shift runs from 7:45 AM until 12:45 PM.",
+    "On Sundays, the All Day Shift runs from 7:45 AM until 12:45 PM.",
+    "Outside of the Morning Shift, Noon Shift, Evening Shift, and All Day Shift windows, there is no scheduled shift."
 ]

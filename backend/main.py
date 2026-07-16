@@ -114,6 +114,18 @@ def get_current_shift(now=None):
     # If no shifts cover the current time, return the NO_SHIFT_LABEL
     return NO_SHIFT_LABEL
 
+# day of week, shift, month, and year as of `now` — computed once per request
+# (in answer_question) and threaded into both retrieval and prompt
+# construction, so they always agree on what "today" is
+def current_time_context(now=None):
+    now = now or datetime.now()
+    return {
+        "day_of_week": now.strftime("%A"),
+        "shift": get_current_shift(now),
+        "month": now.strftime("%B"),
+        "year": now.strftime("%Y"),
+    }
+
 # knowledge base retrieval
 #
 # the database is a flat list of {category, text} entries. we embed each one
@@ -167,11 +179,20 @@ K = 10
 SCORE_THRESHOLD = 0.5
 
 # index retrieval function
-def retrieve_info(question, k):
+def retrieve_info(question, k, time_context):
+
+    # fold the current day/shift/month/year into the embedded query so
+    # retrieval can surface time-relevant entries (e.g. a specific month's
+    # promotion) even when the question itself doesn't mention them
+    augmented_question = (
+        f"{question} "
+        f"(Today is {time_context['day_of_week']}, the current shift is {time_context['shift']}, "
+        f"and the current month is {time_context['month']} {time_context['year']}.)"
+    )
 
     # convert question into embeddings
     query_embedding = encoding_model.encode(
-        [question],
+        [augmented_question],
         normalize_embeddings=True
     )
 
@@ -199,12 +220,11 @@ def indices_to_context(indices):
 # prompt construction
 
 # assembles the final prompt sent to the model: the retrieved knowledge-base
-# context, plus today's day of week and current shift (so day/shift-relative
-# questions can be answered), plus the rules for how to answer
-def build_prompt(question, context):
+# context, plus today's day of week, current shift, and current month/year
+# (so day/shift/promotion-relative questions can be answered), plus the
+# rules for how to answer
+def build_prompt(question, context, time_context):
     context_text = "\n".join(item["text"] for item in context)
-    day_of_week = datetime.now().strftime("%A")
-    current_shift = get_current_shift()
 
     prompt = (
         "Answer the question using ONLY the information below, in a warm, friendly, "
@@ -216,9 +236,11 @@ def build_prompt(question, context):
         "\"I don't have that one handy, sorry! Is there something else I can help with?\" If the information "
         "below does answer the question, answer it directly and do not say that phrase.\n"
         "Whenever possible and reasonable, answer the question to the best of your ability.\n"
-        f"Today is {day_of_week}, and the shift currently underway is: {current_shift}. If the answer "
-        "depends on the day of the week or the current shift, use these facts in your answer, and explain "
-        "any details that change based on the day or shift.\n\n"
+        f"Today is {time_context['day_of_week']}, {time_context['month']} {time_context['year']}, and the "
+        f"shift currently underway is: {time_context['shift']}. If the answer depends on the day of the week, "
+        "the current shift, or the current month/year (for example, a time-limited monthly promotion), use "
+        "these facts in your answer, and explain any details that change based on the day, shift, or time of "
+        "year.\n\n"
         f"Information:\n{context_text}\n\n"
         f"Question:\n{question}"
     )
@@ -315,8 +337,11 @@ def answer_question():
 
     question = request.args.get("question")
 
+    # computed once so retrieval and the prompt agree on what "today" is
+    time_context = current_time_context()
+
     # have FAISS collect the top k matching data chunks to the question
-    distances, indices = retrieve_info(question, K)
+    distances, indices = retrieve_info(question, K, time_context)
 
     # remove the outermost dimension
     # so that distances and indices become a 1d array
@@ -338,7 +363,7 @@ def answer_question():
     context = indices_to_context(filtered_indices)
 
     # use the context to collect a prompt
-    prompt = build_prompt(question, context)
+    prompt = build_prompt(question, context, time_context)
 
     # use the prompt to generate a response
     response = generate_response(prompt)

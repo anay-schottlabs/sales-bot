@@ -187,7 +187,7 @@ async function sendMessage() {
         <!-- single scroll region: header and messages scroll together, so history passes beneath the glass header -->
         <div ref="messagesContainer" class="absolute inset-0 overflow-y-auto">
             <!-- page hero, glassy and pinned to the top of the scroll region — the glass spans the full screen width -->
-            <div class="sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
+            <div class="glass-fade-b sticky top-0 z-10 bg-gradient-to-b from-base-100 via-base-100/85 to-transparent">
                 <div class="max-w-2xl mx-auto px-4 pt-16 pb-8 text-center">
                     <p class="text-5xl font-bold tracking-tight text-base-content">{{ greeting }}</p>
                 </div>
@@ -219,7 +219,7 @@ async function sendMessage() {
         </div>
 
         <!-- input to type messages, glassy and pinned to the bottom so history blurs beneath it too — full screen width -->
-        <div class="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-base-100 via-base-100/85 to-transparent backdrop-blur-xl">
+        <div class="glass-fade-t absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-base-100 via-base-100/85 to-transparent">
             <div class="max-w-2xl mx-auto flex justify-center px-4 pt-10 pb-12">
                 <div class="relative w-full">
                     <input

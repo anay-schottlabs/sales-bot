@@ -38,3 +38,58 @@
     --radius-box: 1rem;
     --border: 1px;
 }
+
+/*
+ * backdrop-filter only takes one flat blur value per element, so a single
+ * blurred panel can't fade from "fully blurred" to "sharp" on its own —
+ * the tint can fade via a gradient, but the blur itself stays constant.
+ * These stack two extra masked layers (via ::before/::after) with
+ * different blur radii and mask-image tapers, so the *blur strength*
+ * itself gradually tapers off toward the open edge instead of cutting
+ * off uniformly.
+ */
+@layer utilities {
+    .glass-fade-b,
+    .glass-fade-t {
+        isolation: isolate;
+    }
+
+    .glass-fade-b::before,
+    .glass-fade-b::after,
+    .glass-fade-t::before,
+    .glass-fade-t::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .glass-fade-b::before {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        mask-image: linear-gradient(to bottom, black, black 50%, transparent 85%);
+        -webkit-mask-image: linear-gradient(to bottom, black, black 50%, transparent 85%);
+    }
+
+    .glass-fade-b::after {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        mask-image: linear-gradient(to bottom, black, black 25%, transparent 55%);
+        -webkit-mask-image: linear-gradient(to bottom, black, black 25%, transparent 55%);
+    }
+
+    .glass-fade-t::before {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        mask-image: linear-gradient(to top, black, black 50%, transparent 85%);
+        -webkit-mask-image: linear-gradient(to top, black, black 50%, transparent 85%);
+    }
+
+    .glass-fade-t::after {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        mask-image: linear-gradient(to top, black, black 25%, transparent 55%);
+        -webkit-mask-image: linear-gradient(to top, black, black 25%, transparent 55%);
+    }
+}

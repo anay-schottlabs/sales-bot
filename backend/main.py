@@ -84,12 +84,14 @@ def build_prompt(question, context):
     context_text = "\n".join(context)
 
     prompt = (
-        "You are a helpful sales assistant for a fitness company.\n"
-        "Answer the user's question using ONLY the information provided below.\n"
-        "If the answer is not in the information provided, say: \"I don't have that information.\"\n\n"
+        "Answer the question using ONLY the information below. Give exactly one "
+        "complete answer and then stop — do not add extra questions, extra answers, "
+        "or unrelated text.\n"
+        "Only respond with the exact phrase \"I don't have that information.\" if none "
+        "of the information below answers the question. If the information below does "
+        "answer the question, answer it directly and do not say that phrase.\n\n"
         f"Information:\n{context_text}\n\n"
-        f"Question:\n{question}\n\n"
-        "Answer:"
+        f"Question:\n{question}"
     )
 
     return prompt
@@ -103,62 +105,44 @@ llm = AutoModelForCausalLM.from_pretrained(
     device_map="auto"
 )
 
+SYSTEM_PROMPT = (
+    "You are a helpful assistant for a fitness company, answering staff and "
+    "customer questions about sales, memberships, and shift/operational procedures."
+)
+
 # a function to generate a response with the model
 def generate_response(prompt):
-    # Convert the text prompt into tokens (numbers) that the model understands.
-    # return_tensors="pt" means return PyTorch tensors instead of normal Python lists.
-    inputs = tokenizer(
-        prompt,
+    # Qwen2.5-Instruct is trained on chat-formatted conversations, not raw text
+    # completion. apply_chat_template wraps the prompt with the special tokens
+    # the model was trained to recognize as "the assistant's turn" — this is
+    # what lets the model know when to stop, instead of rambling on past the
+    # actual answer.
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": prompt},
+    ]
+
+    inputs = tokenizer.apply_chat_template(
+        messages,
+        add_generation_prompt=True,
+        return_dict=True,
         return_tensors="pt"
-    )
+    ).to(llm.device)
 
-    # Move the input tensors to the same device as the model.
-    # If the model is on GPU, the inputs must also be on GPU.
-    inputs = inputs.to(llm.device)
-
-    # Generate a response from the model.
-    #
-    # **inputs is dictionary unpacking.
-    # It takes:
-    # {
-    #     "input_ids": ...,
-    #     "attention_mask": ...
-    # }
-    #
-    # and converts it into:
-    # generate(
-    #     input_ids=...,
-    #     attention_mask=...
-    # )
-    #
     # max_new_tokens controls how long the answer can be.
     output = llm.generate(
         **inputs,
         max_new_tokens=200
     )
 
-    # output is a tensor containing token IDs.
-    #
-    # Example:
-    # output = [
-    #     [15496, 995, 318, 1234, 5678]
-    # ]
-    #
-    # The first [] represents the batch.
-    # Since we only asked one question, we take the first result:
-    # output[0]
-    #
-    # Then decode converts token IDs back into readable text.
-    answer = tokenizer.decode(
-        output[0],
-        skip_special_tokens=True
-    )
+    # output includes the input prompt tokens followed by the newly generated
+    # ones. Slice those off so we only decode the model's actual answer.
+    new_tokens = output[0][inputs["input_ids"].shape[-1]:]
 
-    # clean up the response
-    # without cleanup, the response would include the entire prompt with the answer
-    # this removes the prompt so that only the answer is included
-    prompt_len = len(prompt) + 1
-    return answer[prompt_len:]
+    return tokenizer.decode(
+        new_tokens,
+        skip_special_tokens=True
+    ).strip()
 
 @app.route("/ask")
 @limiter.limit("5 per minute")
@@ -185,4 +169,4 @@ def answer_question():
     return response
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="127.0.0.1", port=5000)
